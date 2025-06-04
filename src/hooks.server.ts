@@ -14,14 +14,25 @@ const PROTECTED_ROUTES = [
 const AUTH_ROUTES = [
   '/login',
   '/signup'
-  //'/reset-password',
+  //'/verify-email'
 ];
 
 const ADMIN_ROUTES = [
-  '/admin' // Future update?
+  '/admin'
 ];
 
-// We can determine if a route is public by checking if it's NOT in the other arrays
+/*✅ RESTORED: Public routes that both authenticated and non-authenticated users can access
+const PUBLIC_ROUTES = [
+  '/',
+  '/movies',
+  '/search',
+  '/about',
+  '/contact',
+  '/help',
+  '/terms',
+  '/privacy',
+  '/status'
+];*/
 
 // Interface for authentication result
 interface AuthResult {
@@ -35,7 +46,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   const startTime = Date.now();
   const requestedPath = event.url.pathname;
   const userAgent = event.request.headers.get('user-agent') || 'Unknown';
-  console.log(`Handling request for: ${requestedPath} from ${userAgent}`);
+  
   // Get client IP address with fallback
   let clientIP: string;
   try {
@@ -50,7 +61,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       timestamp: new Date().toISOString()
     });
   }
-  console.log(`Client IP: ${clientIP}`);
+
   // Log the incoming request
   logAuth('REQUEST_RECEIVED', {
     path: requestedPath === '/' ? '/home' : requestedPath,
@@ -108,7 +119,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       timestamp: new Date().toISOString()
     });
 
-    // Proper error handling for SvelteKit
+    // return a generic error response
     if (dev) {
       return error(500, `Server error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
     }
@@ -118,18 +129,19 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 /**
- * Check if user is authenticated using Supabase
+ * Check if user is authenticated using secure getUser() method
+ * Fixes the initial get session issue
  */
 async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
   try {
     const supabase = createSupabaseServerClient(event);
     
-    // Get current session
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    // Use getUser() instead of getSession() for proper auth
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
     
-    if (sessionError) {
-      logError('SESSION_CHECK_ERROR', {
-        error: sessionError.message,
+    if (userError) {
+      logError('USER_CHECK_ERROR', {
+        error: userError.message,
         timestamp: new Date().toISOString()
       });
       return {
@@ -140,7 +152,7 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
       };
     }
 
-    if (!session || !session.user) {
+    if (!user) {
       return {
         isAuthenticated: false,
         user: null,
@@ -153,32 +165,32 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role, email_verified, first_name, last_name')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single();
 
     if (profileError && profileError.code !== 'PGRST116') { // PGRST116 = no rows returned
       logError('PROFILE_CHECK_ERROR', {
-        userId: session.user.id,
+        userId: user.id,
         error: profileError.message,
         timestamp: new Date().toISOString()
       });
     }
 
-    const isAdmin = profile?.role === 'admin' || session.user.app_metadata?.role === 'admin';
-    const isVerified = session.user.email_confirmed_at !== null || profile?.email_verified === true;
+    const isAdmin = profile?.role === 'admin' || user.app_metadata?.role === 'admin';
+    const isVerified = user.email_confirmed_at !== null || profile?.email_verified === true;
 
     logAuth('USER_AUTHENTICATED', {
-      userId: session.user.id,
-      email: session.user.email,
+      userId: user.id,
+      email: user.email,
       isAdmin,
       isVerified,
-      provider: session.user.app_metadata?.provider || 'email',
+      provider: user.app_metadata?.provider || 'email',
       timestamp: new Date().toISOString()
     });
 
     return {
       isAuthenticated: true,
-      user: session.user,
+      user: user,
       isAdmin,
       isVerified
     };
@@ -210,7 +222,7 @@ function handleRouteProtection(
 ): Response | null {
   const { isAuthenticated, user, isAdmin, isVerified } = authResult;
 
-  // Check if route requires authentication
+  // Check route types
   const requiresAuth = PROTECTED_ROUTES.some(route => requestedPath.startsWith(route));
   const isAuthRoute = AUTH_ROUTES.some(route => requestedPath.startsWith(route));
   const isAdminRoute = ADMIN_ROUTES.some(route => requestedPath.startsWith(route));
@@ -270,8 +282,8 @@ function handleRouteProtection(
     return redirect(303, intendedDestination);
   }
 
-  // Handle email verification requirements
-  if (isAuthenticated && !isVerified) {
+  // Handle email verification requirements for protected routes
+  if (isAuthenticated && !isVerified && requiresAuth) {
     const verificationExemptPaths = [
       '/verify-email',
       '/logout',
@@ -281,7 +293,7 @@ function handleRouteProtection(
 
     const isExempt = verificationExemptPaths.some(path => requestedPath.startsWith(path));
 
-    if (!isExempt && requiresAuth) {
+    if (!isExempt) {
       logSecurity('UNVERIFIED_USER_ACCESS', {
         path: requestedPath,
         userId: user?.id,
@@ -292,14 +304,9 @@ function handleRouteProtection(
     }
   }
 
-  // Handle special redirects
-  if (requestedPath === '/') {
-    if (isAuthenticated) {
-      // Authenticated users go to dashboard
-      return redirect(303, '/dashboard');
-    }
-    // Non-authenticated users stay on landing page
-  }
+  // ✅ Public routes are handled implicitly
+  // If a route is not protected, auth, or admin - it's treated as public
+  // Both authenticated and non-authenticated users can access these routes freely
 
   // No redirect needed
   return null;
