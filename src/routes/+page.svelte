@@ -128,6 +128,7 @@
 <Navbar />
 
 <!-- Hero Section -->
+<!-- Hero Section -->
 <section class="relative h-screen flex items-center justify-start overflow-hidden">
   <div class="absolute inset-0 z-0">
     {#each slides as slide, i}
@@ -148,10 +149,10 @@
       <p class="text-lg text-gray-300 mb-8">{current.subtitle}</p>
       
       <div class="flex flex-wrap gap-4">
-        <a href="/plans" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
+        <a href="/plans" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
           Show Plan
         </a>
-        <a href="/start" class="border border-white text-white hover:bg-white hover:text-slate-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300">
+        <a href="/start" class="border border-white/50 text-white hover:bg-white hover:text-slate-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 backdrop-blur-sm">
           Get Started
         </a>
       </div>
@@ -202,6 +203,7 @@
     </svg>
   </button>
 </section>
+
 
 <!-- Featured Movies Section -->
 <section class="py-20 bg-slate-950">
