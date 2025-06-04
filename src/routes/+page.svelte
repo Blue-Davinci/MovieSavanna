@@ -4,6 +4,7 @@
   import PricingPlans from '$lib/webcomponents/home/PricingPlans.svelte';
   import MovieCategories from '$lib/webcomponents/home/MovieCategories.svelte';
   import Features from '$lib/webcomponents/home/Features.svelte';
+  import Footer from '$lib/webcomponents/home/Footer.svelte';
   
   // Hero section state
   let currentSlide = $state(0);
@@ -297,3 +298,4 @@
 <PricingPlans />
 <MovieCategories />
 <Features />
+<Footer />
