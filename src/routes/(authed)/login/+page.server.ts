@@ -1,4 +1,4 @@
-import { superValidate } from 'sveltekit-superforms';
+import { superValidate, message } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { enhancedLoginSchema } from '$lib/schemas/schema';
 import { fail, type RequestEvent } from '@sveltejs/kit';
@@ -26,9 +26,10 @@ export const actions = {
       // Mock authentication (replace with your actual auth service)
       if (email === 'demo@moviesavanna.com' && password === 'Demo123!') {
         // Success case
-        return {
+        console.log('Login successful for:', email);
+        return message(
           form,
-          message: {
+          {
             success: true,
             message: 'Login successful!',
             data: {
@@ -36,36 +37,36 @@ export const actions = {
               last_name: 'User'
             }
           }
-        };
+        );
       } else if (email === 'inactive@moviesavanna.com') {
         // Activation required case
-        return {
+        return message(
           form,
-          message: {
+          {
             success: false,
             message: 'activation_required'
           }
-        };
+        );
       } else if (email === 'mfa@moviesavanna.com') {
         // MFA required case
-        return {
+        return message(
           form,
-          message: {
+          {
             success: false,
             message: 'mfa_required',
             email: email,
             token: 'mock-mfa-token-123'
           }
-        };
+        );
       } else {
         // Invalid credentials
-        return {
+        return message(
           form,
-          message: {
+          {
             success: false,
             message: 'Invalid email or password'
           }
-        };
+        );
       }
     } catch (error) {
       console.error('Login error:', error);

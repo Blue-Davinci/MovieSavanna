@@ -14,21 +14,26 @@
     validators: zodClient(enhancedLoginSchema),
     dataType: 'json',
     onUpdated({ form }) {
-      if (form.message) {
+      console.log('Form updated:', form);
+      
+      // The message is accessed via $message, not form.message
+      if (form.message.success) {
         if (form.message.success) {
-          let name = `${form.message.data.first_name} ${form.message.data.last_name}`;
-          let message = `${form.message.message} Welcome back, ${name}!`;
-          console.log('Redirecting to:', redirectionPage);
-          goto(redirectionPage);
+          let name = `${$message.data.first_name} ${$message.data.last_name}`;
+          let welcomeMessage = `${$message.message} Welcome back, ${name}!`;
+          console.log('Login successful Redirecting to:', redirectionPage, ' || Message :', welcomeMessage);
+          goto(redirectionPage); 
         } else if (!form.message.success && form.message.message === 'activation_required') {
-          const message = 'Oops! Looks like your account needs a little magic to get started. Activate it now to unlock all the awesomeness!';
-          goto(`/activation?message=${encodeURIComponent(message)}`);
+          const activationMessage = 'Oops! Looks like your account needs a little magic to get started. Activate it now to unlock all the awesomeness!';
+          console.log('Activation required:', activationMessage);
+          goto(`/activation?message=${encodeURIComponent(activationMessage)}`);
         } else if (!form.message.success && form.message.message === 'mfa_required') {
-          const email = form.message?.email || '';
-          const token = form.message?.token || '';
+          const email = $message?.email || '';
+          const token = $message?.token || '';
+          console.log('MFA required:', );
           goto(`/login/verify?token=${token}&email=${email}&redirectTo=${redirectionPage}`);
         } else {
-          console.log('Error:', form.message.message);
+          console.log('Login Error:', form.message.message);
         }
       }
     }
