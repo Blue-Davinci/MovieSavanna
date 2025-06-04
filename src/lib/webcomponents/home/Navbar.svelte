@@ -47,7 +47,7 @@
     <!-- Desktop Auth Buttons -->
     <div class="hidden lg:flex items-center space-x-4">
       <a 
-        href="/signin" 
+        href="/login" 
         class="text-white/90 hover:text-white font-medium px-4 py-2 rounded-lg hover:bg-white/10 transition-all duration-300"
       >
         Sign In
