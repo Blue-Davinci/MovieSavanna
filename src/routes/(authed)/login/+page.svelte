@@ -7,7 +7,7 @@
   import { fly, fade } from 'svelte/transition';
 
   let { data } = $props();
-  let redirectionPage = $page.url.searchParams.get('redirectTo') ?? '/';
+  let redirectionPage = $page.url.searchParams.get('redirectTo') ?? '/dashboard';
   let showPassword = $state(false);
 
   const form = superForm(data.form, {
