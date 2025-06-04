@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Navbar from '$lib/webcomponents/home/Navbar.svelte';
+  import PricingPlans from '$lib/webcomponents/home/PricingPlans.svelte';
   
   // Hero section state
   let currentSlide = $state(0);
@@ -292,3 +293,4 @@
     </div>
   </div>
 </section>
+<PricingPlans />
