@@ -42,6 +42,14 @@ interface AuthResult {
   isVerified: boolean;
 }
 
+// Custom response interface to avoid try/catch issues
+interface RouteAction {
+  type: 'redirect' | 'error' | 'continue';
+  status?: number;
+  location?: string;
+  message?: string;
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
   const startTime = Date.now();
   const requestedPath = event.url.pathname;
@@ -70,29 +78,63 @@ export const handle: Handle = async ({ event, resolve }) => {
     timestamp: new Date().toISOString()
   });
 
+  // Declare variables outside try block to avoid scope issues allowing
+  // us to avoid the catch triggering on redirects
+  let authResult: AuthResult;
+  let routeAction: RouteAction = { type: 'continue' };
+
   try {
     // Check authentication status
-    const authResult = await checkAuthentication(event);
+    authResult = await checkAuthentication(event);
+    console.log('Auth Result.... done');
     
     // Set locals with proper typing
     event.locals.user = authResult.user;
     event.locals.isAuthenticated = authResult.isAuthenticated;
     event.locals.isAdmin = authResult.isAdmin;
     event.locals.isVerified = authResult.isVerified;
-
-    // Handle route protection logic
-    const redirectResponse = handleRouteProtection(
+    console.log('Locals set.... done');
+    
+    // Get route action but don't execute redirects/errors yet
+    routeAction = handleRouteProtection(
       requestedPath, 
       authResult, 
       clientIP, 
       event.url.searchParams
     );
+    console.log('Route protection handled.... done', routeAction);
+
+  } catch (err) {
+    const errorId = generateErrorId();
     
-    if (redirectResponse) {
-      return redirectResponse;
+    logError('HOOKS_SERVER_ERROR', {
+      errorId,
+      path: requestedPath,
+      clientIP,
+      error: err instanceof Error ? err.message : 'Unknown error',
+      stack: err instanceof Error ? err.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
+
+    // Return a generic error response
+    if (dev) {
+      return error(500, `Server error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
     }
 
-    // Continue with the request
+    return error(500, `An internal server error occurred. Please try again later. (ID: ${errorId})`);
+  }
+
+  // Handle redirects and errors OUTSIDE the try block
+  if (routeAction.type === 'redirect' && routeAction.location) {
+    return redirect(routeAction.status || 303, routeAction.location);
+  }
+  
+  if (routeAction.type === 'error') {
+    return error(routeAction.status || 500, routeAction.message || 'Access denied');
+  }
+
+  // Continue with the request
+  try {
     const response = await resolve(event);
     
     // Log successful request completion
@@ -110,7 +152,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   } catch (err) {
     const errorId = generateErrorId();
     
-    logError('HOOKS_SERVER_ERROR', {
+    logError('RESOLVE_ERROR', {
       errorId,
       path: requestedPath,
       clientIP,
@@ -119,13 +161,13 @@ export const handle: Handle = async ({ event, resolve }) => {
       timestamp: new Date().toISOString()
     });
 
-    // return a generic error response
     if (dev) {
-      return error(500, `Server error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
+      return error(500, `Resolve error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
     }
 
     return error(500, `An internal server error occurred. Please try again later. (ID: ${errorId})`);
   }
+
 };
 
 /**
@@ -213,13 +255,14 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
 
 /**
  * Handle route protection and redirects
+ * ✅ FIXED: This function only returns Response objects, doesn't throw
  */
 function handleRouteProtection(
   requestedPath: string,
   authResult: AuthResult,
   clientIP: string,
   searchParams: URLSearchParams
-): Response | null {
+): RouteAction {
   const { isAuthenticated, user, isAdmin, isVerified } = authResult;
 
   // Check route types
@@ -235,7 +278,11 @@ function handleRouteProtection(
         clientIP,
         reason: 'Not authenticated'
       });
-      return redirect(303, `/login?redirectTo=${encodeURIComponent(requestedPath)}`);
+      return {
+        type: 'redirect',
+        status: 303,
+        location: `/login?redirectTo=${encodeURIComponent(requestedPath)}`
+      };
     }
 
     if (!isAdmin) {
@@ -246,7 +293,11 @@ function handleRouteProtection(
         reason: 'Not admin user'
       });
       
-      return error(403, 'Access Denied: You do not have permission to access this page. Admin privileges required.');
+      return {
+        type: 'error',
+        status: 403,
+        message: 'Access Denied: You do not have permission to access this page. Admin privileges required.'
+      };
     }
   }
 
@@ -260,12 +311,20 @@ function handleRouteProtection(
 
     // Special handling for API routes
     if (requestedPath.startsWith('/api')) {
-      return error(401, 'Authentication required. You must be logged in to access this resource.');
+      return {
+        type: 'error',
+        status: 401,
+        message: 'Authentication required. You must be logged in to access this resource.'
+      };
     }
 
     // Redirect to login with return path
     const redirectTo = requestedPath === '/dashboard' ? '/dashboard' : requestedPath;
-    return redirect(303, `/login?redirectTo=${encodeURIComponent(redirectTo)}`);
+    return {
+      type: 'redirect',
+      status: 303,
+      location: `/login?redirectTo=${encodeURIComponent(redirectTo)}`
+    };
   }
 
   // Handle auth routes when already authenticated
@@ -279,7 +338,11 @@ function handleRouteProtection(
       reason: 'Already authenticated'
     });
 
-    return redirect(303, intendedDestination);
+    return {
+      type: 'redirect',
+      status: 303,
+      location: intendedDestination
+    };
   }
 
   // Handle email verification requirements for protected routes
@@ -300,14 +363,14 @@ function handleRouteProtection(
         email: user?.email
       });
 
-      return redirect(303, `/verify-email?email=${encodeURIComponent(user?.email || '')}`);
+      return {
+        type: 'redirect',
+        status: 303,
+        location: `/verify-email?email=${encodeURIComponent(user?.email || '')}`
+      };
     }
   }
 
-  // ✅ Public routes are handled implicitly
-  // If a route is not protected, auth, or admin - it's treated as public
-  // Both authenticated and non-authenticated users can access these routes freely
-
-  // No redirect needed
-  return null;
+  // Continue normally - no action needed
+  return { type: 'continue' };
 }
