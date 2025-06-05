@@ -1,4 +1,9 @@
+// ⚠️ DEPRECATED: This file contains private env vars and should NOT be used client-side
+// Use client-tmdb.ts for client-side API calls instead
+// This file is kept for reference only
+
 import { TMDB_API_KEY, TMDB_BASE_URL, TMDB_IMAGE_BASE_URL } from '$env/static/private';
+import { logError, logWarning, logInfo } from '$lib/helpers/logger/logger.js';
 import type { 
   Movie, 
   MovieDetails, 
@@ -38,7 +43,11 @@ class TMDBService {
     
     // Check if we're within rate limit
     if (this.rateLimiter.size >= this.RATE_LIMIT) {
-      console.warn('TMDB API rate limit reached. Please wait before making more requests.');
+      logWarning('TMDB API rate limit reached', {
+        message: 'Rate limit exceeded. Too many requests in a short period.',
+        error: 'Rate limit exceeded',
+        timestamp: new Date().toISOString(),
+      })
       return false;
     }
     
@@ -87,7 +96,11 @@ class TMDBService {
     if (!skipCache) {
       const cached = this.getFromCache<T>(cacheKey);
       if (cached) {
-        console.log(`🎯 Cache hit for: ${endpoint}`);
+        logInfo('TMDB cache hit', {
+          message: `Returning cached data for ${endpoint}`,
+          endpoint,
+          timestamp: new Date().toISOString(),
+        });
         return cached;
       }
     }
@@ -99,7 +112,11 @@ class TMDBService {
 
     try {
       const url = `${TMDB_BASE_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
-      console.log(`🎬 Fetching from TMDB: ${endpoint}`);
+      logInfo('TMDB API request', {
+        message: `Making request to TMDB API for ${endpoint}`,
+        endpoint,
+        timestamp: new Date().toISOString(),
+      });
       
       const response = await fetch(url, {
         headers: {
@@ -125,12 +142,22 @@ class TMDBService {
       
       return data;
     } catch (error) {
-      console.error('TMDB API request failed:', error);
+      logError('TMDB API request error', {
+        message: `Failed to fetch data from TMDB for ${endpoint}`,
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        endpoint,
+        timestamp: new Date().toISOString(),
+      });
       
       // If we have stale cache data, return it as fallback
       const staleCache = this.cache.get(cacheKey);
       if (staleCache) {
-        console.log(`🔄 Using stale cache as fallback for: ${endpoint}`);
+        logWarning('Using stale cache data', {
+          message: `Returning stale cache data for ${endpoint}`,
+          endpoint,
+          timestamp: new Date().toISOString(),
+        });
         return staleCache.data as T;
       }
       
@@ -186,7 +213,10 @@ class TMDBService {
    */
   clearCache(): void {
     this.cache.clear();
-    console.log('🗑️ TMDB cache cleared');
+    logInfo('TMDB cache cleared', {
+      message: 'Cache has been cleared successfully',
+      timestamp: new Date().toISOString(),
+    });
   }
 
   /**
