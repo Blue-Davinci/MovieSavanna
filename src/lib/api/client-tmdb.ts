@@ -5,37 +5,120 @@ import type { Movie, TMDBResponse, PosterSize, BackdropSize, ProfileSize } from 
  * This ensures API keys stay on the server
  */
 export class ClientTMDBService {
+  private logError(event: string, data: Record<string, unknown>) {
+    const logEntry = {
+      level: 'ERROR',
+      event,
+      timestamp: new Date().toISOString(),
+      location: 'client',
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+      ...data
+    };
+    
+    console.error(`[CLIENT] ${event}:`, logEntry);
+  }
+
+  private logInfo(event: string, data: Record<string, unknown>) {
+    if (import.meta.env.DEV) {
+      const logEntry = {
+        level: 'INFO',
+        event,
+        timestamp: new Date().toISOString(),
+        location: 'client',
+        ...data
+      };
+      console.log(`[CLIENT] ${event}:`, logEntry);
+    }
+  }
+
   private async makeRequest<T>(url: string): Promise<T> {
+    const startTime = Date.now();
+    
     try {
+      this.logInfo('CLIENT_API_REQUEST', { url });
+      
       const response = await fetch(url);
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `Request failed: ${response.status}`);
+        
+        this.logError('CLIENT_API_RESPONSE_ERROR', {
+          url,
+          status: response.status,
+          statusText: response.statusText,
+          errorData,
+          duration: Date.now() - startTime
+        });
+        
+        throw new Error(errorData.error || errorData.message || `Request failed: ${response.status}`);
       }
       
-      return await response.json();
+      const result = await response.json();
+      
+      this.logInfo('CLIENT_API_SUCCESS', {
+        url,
+        duration: Date.now() - startTime,
+        hasData: !!result.data,
+        success: result.success
+      });
+      
+      // Handle our wrapped API response format
+      if (result.success && result.data) {
+        return result.data as T;
+      } else {
+        throw new Error(result.error || 'API returned unsuccessful response');
+      }
     } catch (error) {
-      // Keeping the client side logs to the console
-      // Not using our loggers
-      console.error('Client TMDB request failed:', error);
+      this.logError('CLIENT_TMDB_REQUEST_FAILED', {
+        url,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        duration: Date.now() - startTime
+      });
       throw error;
     }
   }
 
   async getPopularMovies(page: number = 1): Promise<TMDBResponse<Movie>> {
-    return this.makeRequest<TMDBResponse<Movie>>(`/api/movies/popular?page=${page}`);
+    try {
+      // Now correctly extracts data from wrapped response
+      const result = await this.makeRequest<TMDBResponse<Movie>>(`/api/movies/popular?page=${page}`);
+      return result;
+    } catch (error) {
+      this.logError('GET_POPULAR_MOVIES_FAILED', {
+        page,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
   }
 
   async searchMovies(query: string, page: number = 1): Promise<TMDBResponse<Movie>> {
     if (!query.trim()) {
+      this.logError('SEARCH_MOVIES_INVALID_QUERY', {
+        query,
+        page
+      });
       throw new Error('Search query is required');
     }
-    const params = new URLSearchParams({
-      q: query.trim(),
-      page: page.toString()
-    });
-    return this.makeRequest<TMDBResponse<Movie>>(`/api/movies/search?${params}`);  }
+    
+    try {
+      const params = new URLSearchParams({
+        q: query.trim(),
+        page: page.toString()
+      });
+      
+      // Now correctly extracts data from wrapped response
+      const result = await this.makeRequest<TMDBResponse<Movie>>(`/api/movies/search?${params}`);
+      return result;
+    } catch (error) {
+      this.logError('SEARCH_MOVIES_FAILED', {
+        query: query.trim(),
+        page,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
 
   /**
    * Get full image URL (client-safe - no API key required)
@@ -45,7 +128,16 @@ export class ClientTMDBService {
     size: PosterSize | BackdropSize | ProfileSize = 'w500'
   ): string | null {
     if (!path) return null;
-    return `https://image.tmdb.org/t/p/${size}${path}`;
+    
+    const url = `https://image.tmdb.org/t/p/${size}${path}`;
+    
+    this.logInfo('IMAGE_URL_GENERATED', {
+      path,
+      size,
+      generatedUrl: url
+    });
+    
+    return url;
   }
 }
 
