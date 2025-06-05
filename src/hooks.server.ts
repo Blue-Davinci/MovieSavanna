@@ -86,14 +86,12 @@ export const handle: Handle = async ({ event, resolve }) => {
   try {
     // Check authentication status
     authResult = await checkAuthentication(event);
-    console.log('Auth Result.... done');
     
     // Set locals with proper typing
     event.locals.user = authResult.user;
     event.locals.isAuthenticated = authResult.isAuthenticated;
     event.locals.isAdmin = authResult.isAdmin;
     event.locals.isVerified = authResult.isVerified;
-    console.log('Locals set.... done');
     
     // Get route action but don't execute redirects/errors yet
     routeAction = handleRouteProtection(
@@ -102,7 +100,6 @@ export const handle: Handle = async ({ event, resolve }) => {
       clientIP, 
       event.url.searchParams
     );
-    console.log('Route protection handled.... done', routeAction);
 
   } catch (err) {
     const errorId = generateErrorId();

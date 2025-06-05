@@ -1,3 +1,7 @@
+<script lang="ts">
+   let data = $props();
+   console.log("Dashboard data:", data);
+</script>
 <!-- Make a sample dashboard -->
  <section class="py-20 bg-slate-950">
   <div class="container mx-auto px-4">
