@@ -1,4 +1,4 @@
-// ⚠️ DEPRECATED: This file contains private env vars and should NOT be used client-side
+// DEPRECATED: This file contains private env vars and should NOT be used client-side
 // Use client-tmdb.ts for client-side API calls instead
 // This file is kept for reference only
 
