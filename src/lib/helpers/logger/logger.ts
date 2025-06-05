@@ -26,6 +26,16 @@ export const logAuth = (event: string, data: Record<string, unknown>) => {
   logger.info({ category: 'AUTH', event, ...data });
 };
 
+//warning
+export const logWarning = (event: string, data: Record<string, unknown>) => {
+  logger.warn({ category: 'WARNING', event, ...data });
+};
+
+// general information
+export const logInfo = (event: string, data: Record<string, unknown>) => {
+  logger.info({ category: 'INFO', event, ...data });
+};
+
 export const logSecurity = (event: string, data: Record<string, unknown>) => {
   logger.warn({ category: 'SECURITY', event, ...data });
 };

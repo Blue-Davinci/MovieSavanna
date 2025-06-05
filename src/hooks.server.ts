@@ -159,10 +159,10 @@ export const handle: Handle = async ({ event, resolve }) => {
     });
 
     if (dev) {
-      return error(500, `Resolve error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
+      error(500, `Resolve error: ${err instanceof Error ? err.message : 'Unknown error'} (ID: ${errorId})`);
     }
 
-    return error(500, `An internal server error occurred. Please try again later. (ID: ${errorId})`);
+    error(500, `An internal server error occurred. Please try again later. (ID: ${errorId})`);
   }
 
 };
@@ -200,7 +200,7 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
       };
     }
 
-    // Get user profile data for additional checks
+    // ToDo: Remove this if i'll have not implemented it -->> Get user profile data for additional checks
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role, email_verified, first_name, last_name')
