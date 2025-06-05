@@ -32,7 +32,7 @@ export const actions = {
         // Even if logout fails, redirect to home for security
         return redirect(303, '/?logout=failed');
       }
-
+      // ToDo: Implement actions in our Home Page to handle logout success/failure messages
       // Log successful logout
       logAuth('USER_LOGOUT_SUCCESS', {
         userId,
