@@ -15,18 +15,34 @@ export interface Movie {
   video: boolean;
 }
 
-export interface MovieDetails extends Movie {
-  runtime: number | null;
+
+
+export interface MovieDetails {
+  id: number;
+  title: string;
+  original_title: string;
+  overview: string;
+  tagline: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  release_date: string;
+  runtime: number;
+  vote_average: number;
+  vote_count: number;
+  popularity: number;
+  adult: boolean;
+  video: boolean;
+  original_language: string;
+  status: 'Rumored' | 'Planned' | 'In Production' | 'Post Production' | 'Released' | 'Canceled';
   budget: number;
   revenue: number;
   homepage: string | null;
   imdb_id: string | null;
-  status: string;
-  tagline: string | null;
   genres: Genre[];
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
   spoken_languages: SpokenLanguage[];
+  belongs_to_collection: Collection | null;
 }
 
 export interface Genre {
@@ -50,6 +66,13 @@ export interface SpokenLanguage {
   english_name: string;
   iso_639_1: string;
   name: string;
+}
+
+export interface Collection {
+  id: number;
+  name: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
 }
 
 export interface CastMember {
@@ -81,6 +104,24 @@ export interface CrewMember {
   popularity: number;
 }
 
+export interface MovieVideos {
+  id: number;
+  results: VideoResult[];
+}
+
+export interface VideoResult {
+  id: string;
+  iso_639_1: string;
+  iso_3166_1: string;
+  key: string;
+  name: string;
+  official: boolean;
+  published_at: string;
+  site: 'YouTube' | 'Vimeo';
+  size: 360 | 480 | 720 | 1080;
+  type: 'Trailer' | 'Teaser' | 'Clip' | 'Featurette' | 'Behind the Scenes' | 'Bloopers';
+}
+
 export interface MovieCredits {
   id: number;
   cast: CastMember[];
@@ -110,6 +151,8 @@ export interface CacheOptions {
   ttl?: number; // Time to live in milliseconds
   skipCache?: boolean;
 }
+
+
 
 export type PosterSize = 'w92' | 'w154' | 'w185' | 'w342' | 'w500' | 'w780' | 'original';
 export type BackdropSize = 'w300' | 'w780' | 'w1280' | 'original';

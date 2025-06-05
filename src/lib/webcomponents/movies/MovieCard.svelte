@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { clientTMDB } from '$lib/api/client-tmdb.js';
   import type { Movie } from '$lib/types/movie.js';
   
@@ -37,6 +38,7 @@
     
     // Will navigate to movie detail page later
     console.log('Navigate to movie:', movie.id);
+    goto(`/dashboard/${movie.id}`);
   }
 </script>
 
