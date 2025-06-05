@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { tmdbService } from '$lib/api/tmdb.js';
+import { logError } from '$lib/helpers/logger/logger.js';
 import type { RequestHandler } from './$types.js';
 
 export const GET: RequestHandler = async () => {
@@ -20,7 +21,11 @@ export const GET: RequestHandler = async () => {
       cache_stats: tmdbService.getCacheStats()
     });
   } catch (error) {
-    console.error('TMDB API test failed:', error);
+    logError('TMDB API test failed:' ,{
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString(),
+    });
     
     return json({
       success: false,
