@@ -46,7 +46,7 @@
     };
     
     const score = Object.values(checks).filter(Boolean).length;
-    return { score, checks }; // ✅ RETURN the value instead of setting state
+    return { score, checks }; 
   }
 
   // Reactive password strength checking

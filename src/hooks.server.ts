@@ -21,7 +21,7 @@ const ADMIN_ROUTES = [
   '/admin'
 ];
 
-/*✅ RESTORED: Public routes that both authenticated and non-authenticated users can access
+/*Public routes that both authenticated and non-authenticated users can access
 const PUBLIC_ROUTES = [
   '/',
   '/movies',
@@ -252,7 +252,7 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
 
 /**
  * Handle route protection and redirects
- * ✅ FIXED: This function only returns Response objects, doesn't throw
+ * This function only returns Response objects, doesn't throw
  */
 function handleRouteProtection(
   requestedPath: string,
