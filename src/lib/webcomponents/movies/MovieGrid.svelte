@@ -32,29 +32,44 @@
 	let displayTitle = $derived(isSearching ? `Search Results for "${localSearchQuery}"` : title);
 
 	// Fetch movies
-	async function fetchMovies(page: number = 1, query: string = '') {
-		loading = true;
-		error = null;
+    async function fetchMovies(page: number = 1, query: string = '') {
+        loading = true;
+        error = null;
 
-		try {
-			const data: TMDBResponse<Movie> = query.trim()
-				? await clientTMDB.searchMovies(query, page)
-				: await clientTMDB.getPopularMovies(page);
+        try {
+            // Better error handling and logging
+            console.log(`🎬 Fetching movies: page=${page}, query="${query}"`);
+            
+            const data: TMDBResponse<Movie> = query.trim()
+                ? await clientTMDB.searchMovies(query, page)
+                : await clientTMDB.getPopularMovies(page);
 
-			movies = data.results;
-			currentPage = data.page;
-			totalPages = data.total_pages;
-			totalResults = data.total_results;
+            // Validate response structure
+            if (!data || !Array.isArray(data.results)) {
+                throw new Error('Invalid response format from API');
+            }
 
-			console.log(`✅ Loaded ${movies.length} movies (page ${currentPage}/${totalPages})`);
-		} catch (err) {
-			console.error('Failed to fetch movies:', err);
-			error = err instanceof Error ? err.message : 'Failed to load movies';
-			movies = [];
-		} finally {
-			loading = false;
-		}
-	}
+            movies = data.results;
+            currentPage = data.page;
+            totalPages = data.total_pages;
+            totalResults = data.total_results;
+
+            console.log(`Loaded ${movies.length} movies (page ${currentPage}/${totalPages})`);
+        } catch (err) {
+            console.error('Failed to fetch movies:', err);
+            
+            // Better error messagaes
+            if (err instanceof Error) {
+                error = err.message;
+            } else {
+                error = 'Failed to load movies. Please try again.';
+            }
+            
+            movies = [];
+        } finally {
+            loading = false;
+        }
+    }
 
 	// Handle search with debouncing
 	function handleSearch(event: Event) {
