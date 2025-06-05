@@ -1,4 +1,4 @@
-import type { Movie, TMDBResponse, PosterSize, BackdropSize, ProfileSize } from '$lib/types/movie.js';
+import type { Movie, MovieDetails, MovieCredits, MovieVideos, TMDBResponse, PosterSize, BackdropSize, ProfileSize } from '$lib/types/movie.js';
 
 /**
  * Client-side TMDB service that calls our internal API routes
@@ -86,6 +86,34 @@ export class ClientTMDBService {
     } catch (error) {
       this.logError('GET_POPULAR_MOVIES_FAILED', {
         page,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+      throw error;
+    }
+  }
+  async getMovieDetails(movieId: number): Promise<{
+    details: MovieDetails;
+    credits: MovieCredits;
+    videos: MovieVideos;
+  }> {
+    if (!movieId || movieId <= 0) {
+      this.logError('GET_MOVIE_DETAILS_INVALID_ID', {
+        movieId
+      });
+      throw new Error('Invalid movie ID');
+    }
+    
+    try {
+      const result = await this.makeRequest<{
+        details: MovieDetails;
+        credits: MovieCredits;
+        videos: MovieVideos;
+      }>(`/api/movies/${movieId}`);
+      
+      return result;
+    } catch (error) {
+      this.logError('GET_MOVIE_DETAILS_FAILED', {
+        movieId,
         error: error instanceof Error ? error.message : 'Unknown error'
       });
       throw error;
