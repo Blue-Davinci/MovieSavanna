@@ -82,7 +82,7 @@ export const load: PageServerLoad = async ({ params, depends }) => {
       error: err instanceof Error ? err.message : 'Unknown error'
     });
     
-    // ✅ GRACEFUL: Return error state instead of throwing
+    //Return error state instead of throwing
     return {
       movieDetails: null,
       movieCredits: null,

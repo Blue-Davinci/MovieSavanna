@@ -5,7 +5,7 @@
   interface Props {
     movie: MovieDetails;
     videos: MovieVideos;
-    onGoBack?: () => void; // ✅ ADDED: Optional back navigation handler
+    onGoBack?: () => void;
   }
   
   let { movie, videos, onGoBack }: Props = $props();
@@ -58,7 +58,6 @@
     </div>
   {/if}
   
-  <!-- ✅ ADDED: Integrated Back Button -->
   {#if onGoBack}
     <div class="absolute top-6 left-6 z-20">
       <button

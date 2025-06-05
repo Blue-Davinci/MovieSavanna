@@ -41,8 +41,7 @@
     }
     return 'HD';
   }
-  
-  // ✅ ADDED: Keyboard event handler
+  // Handle keyboard navigation
   function handleKeydown(event: KeyboardEvent, videoKey: string) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
