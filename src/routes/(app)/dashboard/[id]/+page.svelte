@@ -49,7 +49,7 @@
   {:else if data.movieDetails}
     <!-- Movie Content -->
     <div class="movie-detail-container">
-      <!-- ✅ FIXED: Hero Section with Integrated Back Button -->
+      <!-- Hero Section with Integrated Back Button -->
       <MoviesHero 
         movie={data.movieDetails}
         videos={data.movieVideos}
