@@ -10,12 +10,12 @@
   <meta name="description" content="Discover and explore thousands of movies on your personal dashboard" />
 </svelte:head>
 
-<!-- Hero Section -->
+<!-- Hero Section (ToDo: Break this up too) -->
 <section class="pt-24 pb-8 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950">
   <div class="container mx-auto px-4">
     <div class="text-center mb-8">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-        Discover <span class="text-blue-500">Amazing</span> Movies
+        Discover <span class="text-blue-500">Movie</span> Savanna
       </h1>
       <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
         Explore thousands of movies, search for your favorites, and discover new gems. 
@@ -23,7 +23,7 @@
       </p>
     </div>
     
-    <!-- Quick Stats -->
+    <!-- Quick Stats (ToDo: We can break this up) -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
       <div class="text-center p-4 bg-slate-800/50 rounded-lg backdrop-blur-sm">
         <div class="text-2xl md:text-3xl font-bold text-blue-400 mb-1">1M+</div>
