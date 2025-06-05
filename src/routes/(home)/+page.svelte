@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Navbar from '$lib/webcomponents/home/Navbar.svelte';
+  // ❌ REMOVE: import Navbar from '$lib/webcomponents/home/Navbar.svelte';
   import PricingPlans from '$lib/webcomponents/home/PricingPlans.svelte';
   import MovieCategories from '$lib/webcomponents/home/MovieCategories.svelte';
   import Features from '$lib/webcomponents/home/Features.svelte';
@@ -8,6 +8,10 @@
   
   // Hero section state
   let currentSlide = $state(0);
+  let data = $props();
+  let userInformation = data.data.userInformation;
+  console.log("Home page data:", data.data);
+  
   let slides = $state([
     {
       id: 1,
@@ -129,7 +133,7 @@
   });
 </script>
 
-<Navbar />
+<!-- ❌ REMOVE: <Navbar isAuthenticated={userInformation.isAuthenticated}/> -->
 
 <!-- Hero Section -->
 <section class="relative h-screen flex items-center justify-start overflow-hidden">
@@ -206,7 +210,6 @@
     </svg>
   </button>
 </section>
-
 
 <!-- Featured Movies Section -->
 <section class="py-20 bg-slate-950">
@@ -295,6 +298,7 @@
     </div>
   </div>
 </section>
+
 <PricingPlans />
 <MovieCategories />
 <Features />
