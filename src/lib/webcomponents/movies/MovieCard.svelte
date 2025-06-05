@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import FavoriteButton from '../favorites/FavoriteButton.svelte';
   import { clientTMDB } from '$lib/api/client-tmdb.js';
   import type { Movie } from '$lib/types/movie.js';
   
@@ -81,6 +82,10 @@
           </div>
         </div>
       {/if}
+
+      <div class="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <FavoriteButton {movie} size="md" variant="overlay" />
+      </div>
       
       <!-- Rating badge -->
       <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-white text-sm font-bold px-3 py-1 rounded-full shadow-lg">
