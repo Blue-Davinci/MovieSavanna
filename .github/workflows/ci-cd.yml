@@ -33,8 +33,8 @@ jobs:
         run: npm run check
         env:
           # Required environment variables for type checking
-          PUBLIC_SUPABASE_URL: "https://test.supabase.co"
-          PUBLIC_SUPABASE_ANON_KEY: "test_anon_key_for_typecheck"
+          SUPABASE_URL: "https://test.supabase.co"
+          SUPABASE_ANON_KEY: "test_anon_key_for_typecheck"
           SUPABASE_SERVICE_ROLE_KEY: "test_service_key_for_typecheck"
           TMDB_API_KEY: "test_api_key_for_typecheck"
           TMDB_BASE_URL: "https://api.themoviedb.org/3"
@@ -48,8 +48,8 @@ jobs:
         run: npm run test:unit -- --run
         env:
           # Mock environment variables for testing
-          PUBLIC_SUPABASE_URL: "https://test.supabase.co"
-          PUBLIC_SUPABASE_ANON_KEY: "test_anon_key_for_testing"
+          SUPABASE_URL: "https://test.supabase.co"
+          SUPABASE_ANON_KE: "test_anon_key_for_testing"
           SUPABASE_SERVICE_ROLE_KEY: "test_service_key_for_testing"
           TMDB_API_KEY: "test_api_key_12345"
           TMDB_BASE_URL: "https://api.themoviedb.org/3"
@@ -62,8 +62,8 @@ jobs:
         run: npm run build
         env:
           # Mock environment variables for build test
-          PUBLIC_SUPABASE_URL: "https://test.supabase.co"
-          PUBLIC_SUPABASE_ANON_KEY: "test_anon_key_for_build"
+          SUPABASE_URL: "https://test.supabase.co"
+          SUPABASE_ANON_KE: "test_anon_key_for_build"
           SUPABASE_SERVICE_ROLE_KEY: "test_service_key_for_build"
           TMDB_API_KEY: "test_api_key_12345"
           TMDB_BASE_URL: "https://api.themoviedb.org/3"
