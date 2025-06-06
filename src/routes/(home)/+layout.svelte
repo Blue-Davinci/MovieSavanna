@@ -3,8 +3,9 @@
 
 	let { data, children } = $props();
 </script>
-<Navbar 
-  isAuthenticated={data?.userInformation.isAuthenticated || false} 
-  user={data?.userInformation.user || null} 
+
+<Navbar
+	isAuthenticated={data?.userInformation.isAuthenticated || false}
+	user={data?.userInformation.user || null}
 />
 {@render children()}
