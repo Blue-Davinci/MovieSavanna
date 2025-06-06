@@ -5,22 +5,6 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
-    server: {
-        host: true, // Allow external connections
-        allowedHosts: [
-            '.ngrok-free.app', // Allow all ngrok-free.app domains
-            'localhost', // Keep localhost access
-            '127.0.0.1' // Keep local IP access
-        ],
-        cors: {
-            origin: [
-                'http://localhost:5173',
-                'https://*.ngrok-free.app',
-                'https://*.ngrok.io'
-            ],
-            credentials: true
-        }
-    },	
 	test: {
 		workspace: [
 			{
