@@ -34,7 +34,7 @@ jobs:
         env:
           # Required environment variables for type checking
           SUPABASE_URL: "https://test.supabase.co"
-          SUPABASE_KEYY: "test_anon_key_for_typecheck"
+          SUPABASE_KEY: "test_anon_key_for_typecheck"
           SUPABASE_SERVICE_ROLE_KEY: "test_service_key_for_typecheck"
           TMDB_API_KEY: "test_api_key_for_typecheck"
           TMDB_BASE_URL: "https://api.themoviedb.org/3"
