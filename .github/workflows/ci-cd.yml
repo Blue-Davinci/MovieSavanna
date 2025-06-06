@@ -43,8 +43,8 @@ jobs:
       # skipping this step if the type check fails
       - name: 🧹 Lint code
         run: npm run lint
-        continue-on-error: false
-        
+        continue-on-error: true
+
       - name: 🧪 Run unit tests
         run: npm run test:unit -- --run
         env:

@@ -23,17 +23,17 @@ export class RecommendationService {
 		}
 
 		try {
-			$inspect('[RECOMMENDATIONS] Analyzing user preferences from', favorites.length, 'favorites');
+			console.log('[RECOMMENDATIONS] Analyzing user preferences from', favorites.length, 'favorites');
 
 			// Analyze user's genre preferences from favorites
 			const genreAnalysis = await this.analyzeUserGenrePreferences(favorites);
 
 			if (genreAnalysis.topGenres.length === 0) {
-				$inspect('[RECOMMENDATIONS] No genre preferences found, falling back to popular movies');
+				console.log('[RECOMMENDATIONS] No genre preferences found, falling back to popular movies');
 				return this.getPopularMovies();
 			}
 
-			$inspect('[RECOMMENDATIONS] Top genres:', genreAnalysis.topGenres);
+			console.log('[RECOMMENDATIONS] Top genres:', genreAnalysis.topGenres);
 
 			// Get recommendations based on preferred genres
 			const recommendations = await this.getGenreBasedRecommendations(
@@ -41,7 +41,7 @@ export class RecommendationService {
 				favorites.map((fav: UserFavorite) => fav.movie_id)
 			);
 
-			$inspect('[RECOMMENDATIONS] Generated', recommendations.length, 'recommendations');
+			console.log('[RECOMMENDATIONS] Generated', recommendations.length, 'recommendations');
 			return recommendations.slice(0, 12); // Limit to 12 recommendations
 		} catch (error) {
 			console.error('[RECOMMENDATIONS] Error generating recommendations:', error);
@@ -137,7 +137,7 @@ export class RecommendationService {
 	 */
 	private async getPopularMovies(): Promise<Movie[]> {
 		try {
-			$inspect('[RECOMMENDATIONS] Falling back to popular movies');
+			console.log('[RECOMMENDATIONS] Falling back to popular movies');
 			const response = await clientTMDB.getPopularMovies(1);
 			return response.results.slice(0, 12);
 		} catch (error) {
@@ -151,7 +151,7 @@ export class RecommendationService {
 	 */
 	async getSimilarMovies(movieId: number, excludeIds: number[] = []): Promise<Movie[]> {
 		try {
-			$inspect('[RECOMMENDATIONS] Getting similar movies for', movieId);
+			console.log('[RECOMMENDATIONS] Getting similar movies for', movieId);
 			const response = await clientTMDB.getSimilarMovies(movieId);
 			const excludeSet = new Set(excludeIds);
 

@@ -15,7 +15,7 @@ export class FavoritesService {
 
 	private logInfo(event: string, data: Record<string, unknown>) {
 		if (import.meta.env.DEV) {
-			$inspect(`[FAVORITES] ${event}:`, {
+			console.log(`[FAVORITES] ${event}:`, {
 				timestamp: new Date().toISOString(),
 				...data
 			});
