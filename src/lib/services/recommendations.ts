@@ -23,11 +23,7 @@ export class RecommendationService {
 		}
 
 		try {
-			$inspect(
-				'[RECOMMENDATIONS] Analyzing user preferences from',
-				favorites.length,
-				'favorites'
-			);
+			$inspect('[RECOMMENDATIONS] Analyzing user preferences from', favorites.length, 'favorites');
 
 			// Analyze user's genre preferences from favorites
 			const genreAnalysis = await this.analyzeUserGenrePreferences(favorites);
