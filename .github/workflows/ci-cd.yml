@@ -226,45 +226,36 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./
 
-      - name: 💬 Comment PR with Preview URL
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const previewUrl = '${{ steps.preview-deploy.outputs.preview-url }}';
-            const commitSha = context.sha.substring(0, 7);
-
-            const comment = `## 🚀 Preview Deployment Ready!
-
-            **✅ All checks passed successfully**
-
-            📱 **Preview URL:** ${previewUrl}
-            🔗 **Commit:** ${commitSha}
-
-            **✅ Test Results:**
-            - Type checking passed ✅
-            - Linting passed ✅  
-            - Unit tests passed ✅
-            - Security audit completed ✅
-            - Build successful ✅
-
-            **🔍 Review the changes and merge when ready!**
-
-            ---
-            *This preview will be automatically updated with new commits to this PR.*`;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            })
+      # just preview summary (no PR commenting)
+      - name: 📝 Preview Deployment Summary
+        run: |
+          echo "🚀 Preview deployment completed successfully!"
+          echo "📱 Preview URL: ${{ steps.preview-deploy.outputs.preview-url }}"
+          echo "🔗 Commit: ${{ github.sha }}"
+          echo "📦 Branch: ${{ github.ref_name }}"
+          
+          # Add to GitHub Step Summary
+          echo "## 🚀 Preview Deployment Ready!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**✅ All quality checks passed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📱 **Preview URL:** ${{ steps.preview-deploy.outputs.preview-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "📦 **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "🎯 **Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**✅ Quality Gates Passed:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Type checking ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- Linting ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- Unit tests ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- Security audit ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- Build verification ✅" >> $GITHUB_STEP_SUMMARY
 
       - name: 📊 Upload preview deployment info
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: preview-deployment-info
+          name: preview-deployment-info-${{ github.run_number }}
           path: |
             .vercel/
           retention-days: 7
