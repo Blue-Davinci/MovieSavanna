@@ -1,10 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import RecommendationSection from '$lib/webcomponents/recommendations/RecommendationSection.svelte';
+  import { recommendationService } from '$lib/services/recommendations.js'; 
   import { goto } from '$app/navigation';
   import { favoritesService } from '$lib/api/favorites.js';
   import FavoriteButton from '$lib/webcomponents/favorites/FavoriteButton.svelte';
   import type { PageData } from './$types';
   import type { UserFavorite } from '$lib/types/favorites.js';
+  import type {Movie} from '$lib/types/movie.js';
   
   let { data }: { data: PageData } = $props();
   
@@ -12,6 +15,21 @@
   let favorites = $state<UserFavorite[]>(data.favorites);
   let loading = $state(false);
   let error = $state<string | null>(data.error || null);
+
+  // Recommendation state
+  let recommendations = $state<Movie[]>([]);
+  let recommendationsLoading = $state(false);
+
+  onMount(() => {
+    if (favorites.length > 0) {
+      loadRecommendations();
+    }
+  });
+
+  // Watch for favorites changes
+  $effect(() => {
+    loadRecommendations();
+  });
   
   // Refresh favorites
   async function refreshFavorites() {
@@ -23,6 +41,22 @@
       error = err instanceof Error ? err.message : 'Failed to refresh favorites';
     } finally {
       loading = false;
+    }
+  }
+
+  async function loadRecommendations() {
+    if (favorites.length === 0) {
+      recommendations = [];
+      return;
+    }
+    
+    try {
+      recommendationsLoading = true;
+      recommendations = await recommendationService.getRecommendationsFromFavorites(favorites);
+    } catch (err) {
+      console.error('Failed to load recommendations:', err);
+    } finally {
+      recommendationsLoading = false;
     }
   }
   
@@ -259,6 +293,16 @@
           </div>
         {/each}
       </div>
+      {#if recommendations.length > 0 || recommendationsLoading}
+        <div class="mt-16 border-t border-slate-800 pt-8">
+          <RecommendationSection 
+            title="You Might Also Like"
+            subtitle="Based on your favorite movies and viewing preferences"
+            movies={recommendations}
+            loading={recommendationsLoading}
+          />
+        </div>
+      {/if}
     {/if}
   </div>
 </section>
