@@ -120,7 +120,7 @@
 									</div>
 								{/if}
 
-								<!-- ✅ FIX: Mobile-first Favorite Button -->
+								<!-- Mobile-first Favorite Button -->
 								<div class="recommendation-favorite-button absolute top-2 right-2">
 									<FavoriteButton {movie} size="sm" variant="overlay" />
 								</div>

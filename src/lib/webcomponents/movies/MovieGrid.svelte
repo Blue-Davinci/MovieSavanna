@@ -98,7 +98,7 @@
 		error = null;
 
 		try {
-			console.log(`🎬 Fetching movies: page=${page}, query="${query}"`);
+			$inspect(`🎬 Fetching movies: page=${page}, query="${query}"`);
 
 			const data: TMDBResponse<Movie> = query.trim()
 				? await clientTMDB.searchMovies(query, page)
@@ -113,7 +113,7 @@
 			totalPages = data.total_pages;
 			totalResults = data.total_results;
 
-			console.log(`Loaded ${movies.length} movies (page ${currentPage}/${totalPages})`);
+			$inspect(`Loaded ${movies.length} movies (page ${currentPage}/${totalPages})`);
 		} catch (err) {
 			console.error('Failed to fetch movies:', err);
 

@@ -23,7 +23,7 @@
 	let isLoggingOut = $state(false);
 
 	let { user = null } = $props<{ user: AppUser | null }>();
-	console.log('>>cUser Information:', user);
+	$inspect('>>cUser Information:', user);
 
 	// Current route for active states
 	let currentPath = $derived($page.url.pathname);

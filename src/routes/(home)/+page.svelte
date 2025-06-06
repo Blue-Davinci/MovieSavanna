@@ -9,7 +9,7 @@
 	let currentSlide = $state(0);
 	let data = $props();
 	let userInformation = data.data.userInformation;
-	console.log('Home page data:', data.data);
+	$inspect('Home page data:', data.data);
 
 	let slides = $state([
 		{

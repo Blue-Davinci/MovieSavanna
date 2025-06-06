@@ -38,7 +38,10 @@ export const load = async ({ url, locals }) => {
     throw redirect(303, redirectTo);
   }
 */
-	console.log('Sign-up Locals: ', locals);
+	logSecurity('SIGNUP_PAGE_ACCESS', {
+		timestamp: new Date().toISOString(),
+		locals_vars: locals
+	});
 	const form = await superValidate(zod(signupSchema));
 	return {
 		form,

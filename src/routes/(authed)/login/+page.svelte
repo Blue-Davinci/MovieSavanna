@@ -14,14 +14,14 @@
 		validators: zodClient(enhancedLoginSchema),
 		dataType: 'json',
 		onUpdated({ form }) {
-			console.log('Form updated:', form);
+			$inspect('Form updated:', form);
 
 			// The message is accessed via $message, not form.message
 			if (form.message.success) {
 				if (form.message.success) {
 					let name = `${$message.data.first_name} ${$message.data.last_name}`;
 					let welcomeMessage = `${$message.message} Welcome back, ${name}!`;
-					console.log(
+					$inspect(
 						'Login successful Redirecting to:',
 						redirectionPage,
 						' || Message :',
@@ -31,15 +31,15 @@
 				} else if (!form.message.success && form.message.message === 'activation_required') {
 					const activationMessage =
 						'Oops! Looks like your account needs a little magic to get started. Activate it now to unlock all the awesomeness!';
-					console.log('Activation required:', activationMessage);
+					$inspect('Activation required:', activationMessage);
 					goto(`/activation?message=${encodeURIComponent(activationMessage)}`);
 				} else if (!form.message.success && form.message.message === 'mfa_required') {
 					const email = $message?.email || '';
 					const token = $message?.token || '';
-					console.log('MFA required:');
+					$inspect('MFA required:');
 					goto(`/login/verify?token=${token}&email=${email}&redirectTo=${redirectionPage}`);
 				} else {
-					console.log('Login Error:', form.message.message);
+					$inspect('Login Error:', form.message.message);
 				}
 			}
 		}
@@ -57,7 +57,7 @@
 	}
 
 	function handleSocialLogin(provider: string) {
-		console.log(`Login with ${provider}`);
+		$inspect(`Login with ${provider}`);
 		// Implement social login logic
 	}
 </script>
