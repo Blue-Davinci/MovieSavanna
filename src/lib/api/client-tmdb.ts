@@ -36,7 +36,7 @@ export class ClientTMDBService {
 				location: 'client',
 				...data
 			};
-			$inspect(`[CLIENT] ${event}:`, logEntry);
+			console.log(`[CLIENT] ${event}:`, logEntry);
 		}
 	}
 
