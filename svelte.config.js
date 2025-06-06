@@ -7,7 +7,7 @@ const config = {
     kit: {
         adapter: adapter({
             // Vercel adapter options
-            runtime: 'nodejs18.x',
+            runtime: 'nodejs20.x',
             memory: 1024,
             maxDuration: 10
         }),
