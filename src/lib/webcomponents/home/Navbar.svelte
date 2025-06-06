@@ -12,7 +12,7 @@
   // Props from parent (layout)
   let { isAuthenticated = false, user = null } = $props();
   
-  console.log("Navbar isAuthenticated:", isAuthenticated, "User:", user);
+  $inspect(isAuthenticated, user);
   
   onMount(() => {
     if (!browser) return;
@@ -34,7 +34,7 @@
 
   // Enhanced logout function
   const handleLogout: SubmitFunction = () => {
-    console.log("Logging out...");
+    $inspect('Logging out...');
   };
 
   // Get user initials for avatar

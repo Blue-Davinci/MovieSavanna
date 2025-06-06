@@ -57,21 +57,7 @@
       <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/40"></div>
     </div>
   {/if}
-  
-  {#if onGoBack}
-    <div class="absolute top-6 left-6 z-20">
-      <button
-        onclick={onGoBack}
-        class="flex items-center gap-2 px-4 py-2 bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white rounded-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg"
-        aria-label="Back to dashboard"
-      >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        <span class="font-medium text-sm">Back</span>
-      </button>
-    </div>
-  {/if}
+
   
   <!-- Content -->
   <div class="relative z-10 container mx-auto px-4 py-16 lg:py-24">
@@ -162,13 +148,6 @@
               Watch Trailer
             </button>
           {/if}
-          
-          <button class="flex items-center gap-3 px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-950">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-            Add to Favorites
-          </button>
         </div>
       </div>
     </div>

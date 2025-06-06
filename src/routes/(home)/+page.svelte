@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  // ❌ REMOVE: import Navbar from '$lib/webcomponents/home/Navbar.svelte';
   import PricingPlans from '$lib/webcomponents/home/PricingPlans.svelte';
   import MovieCategories from '$lib/webcomponents/home/MovieCategories.svelte';
   import Features from '$lib/webcomponents/home/Features.svelte';
@@ -132,8 +131,6 @@
     return () => clearInterval(interval);
   });
 </script>
-
-<!-- ❌ REMOVE: <Navbar isAuthenticated={userInformation.isAuthenticated}/> -->
 
 <!-- Hero Section -->
 <section class="relative h-screen flex items-center justify-start overflow-hidden">
