@@ -12,7 +12,7 @@
 		originalPrice?: number;
 	}
 
-	// ✅ Demo mode - keeps pricing visible but disables purchase
+	// Demo mode - keeps pricing visible but disables purchase
 	let isDemoMode = $state(true); // Set to false when payment is implemented
 
 	let plans = $state<Plan[]>([
@@ -78,7 +78,6 @@
 
 	function selectPlan(planId: string) {
 		if (isDemoMode) {
-			// ✅ Show a professional message for potential employers
 			alert(
 				'💼 Payment integration is currently in development. Feel free to explore the full app functionality with demo access!'
 			);
@@ -87,7 +86,7 @@
 		}
 
 		selectedPlan = planId;
-		console.log('Selected plan:', planId);
+		$inspect('Selected plan:', planId);
 		// Future: redirect to checkout
 		// goto(`/checkout/${planId}`);
 	}
@@ -97,7 +96,6 @@
 	<div class="container mx-auto px-4">
 		<!-- Section Header -->
 		<div class="mx-auto mb-16 max-w-4xl text-center">
-			<!-- ✅ Subtle development notice for employers -->
 			{#if isDemoMode}
 				<div
 					class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-300"
@@ -139,7 +137,6 @@
 					class:shadow-2xl={plan.isPopular}
 					class:shadow-blue-500={plan.isPopular}
 				>
-					<!-- ✅ Small development badge -->
 					{#if isDemoMode}
 						<div class="absolute top-4 right-4 z-10">
 							<div
@@ -213,7 +210,7 @@
 							{/each}
 						</div>
 
-						<!-- ✅ FIXED: CTA Button - Consolidated attributes -->
+						<!-- CTA Button - Consolidated attributes -->
 						<button
 							class="relative w-full transform overflow-hidden rounded-xl py-4 text-lg font-semibold transition-all duration-300 focus:ring-4 focus:outline-none"
 							class:bg-blue-600={plan.isPopular && !isDemoMode}
@@ -257,7 +254,6 @@
 							{/if}
 						</button>
 
-						<!-- ✅ Footer text - Modified for demo -->
 						<p class="mt-4 text-center text-sm text-gray-500">
 							{#if isDemoMode}
 								<span class="flex items-center justify-center gap-1">
@@ -280,7 +276,6 @@
 			{/each}
 		</div>
 
-		<!-- ✅ Professional footer for potential employers -->
 		<div class="mt-16 text-center">
 			{#if isDemoMode}
 				<div class="space-y-4">

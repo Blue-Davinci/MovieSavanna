@@ -91,7 +91,7 @@
 	let allCategories = $derived([...categories, ...secondRowCategories]);
 
 	function handleCategoryClick(categoryId: string) {
-		console.log('Selected category:', categoryId);
+		$inspect('Selected category:', categoryId);
 		// Add navigation logic here
 	}
 </script>

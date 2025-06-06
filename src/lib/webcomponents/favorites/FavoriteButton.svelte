@@ -24,7 +24,7 @@
 	let loading = $state(false);
 	let error = $state<string | null>(null);
 
-	// ✅ FIX: Larger touch targets for mobile
+	// Larger touch targets for mobile
 	const sizeClasses = {
 		sm: 'w-5 h-5',
 		md: 'w-6 h-6',
@@ -32,8 +32,8 @@
 	};
 
 	const buttonSizeClasses = {
-		sm: 'p-2', // ✅ Minimum 44px touch target
-		md: 'p-2.5', // ✅ Better touch area
+		sm: 'p-2', // Minimum 44px touch target
+		md: 'p-2.5', // Better touch area
 		lg: 'p-3'
 	};
 
@@ -46,7 +46,7 @@
 		}
 	});
 
-	// ✅ FIX: Better mobile touch handling
+	// Better mobile touch handling
 	async function toggleFavorite(event: Event) {
 		// Prevent all event propagation first
 		event.stopPropagation();
@@ -92,7 +92,7 @@
 		}
 	}
 
-	// ✅ FIX: Touch event handlers for mobile
+	// Touch event handlers for mobile
 	function handleTouchStart(event: TouchEvent) {
 		event.stopPropagation();
 	}

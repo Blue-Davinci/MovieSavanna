@@ -42,7 +42,10 @@ export const load = async ({ url, locals }) => {
     redirect(303, redirectTo);
   }
   */
-	console.log('Locals: ', locals);
+	logSecurity('LOGIN_PAGE_ACCESS', {
+		timestamp: new Date().toISOString(),
+		locals_vars: locals
+	});
 	const form = await superValidate(zod(enhancedLoginSchema));
 	return {
 		form,

@@ -15,20 +15,20 @@
 		validators: zodClient(signupSchema),
 		dataType: 'json',
 		onUpdated({ form }) {
-			console.log('Signup form updated:', form);
+			$inspect('Signup form updated:', form);
 
 			if (form.message?.success) {
 				if (form.message.message === 'verification_required') {
 					const verificationMessage =
 						"Welcome aboard! 🎉 We've sent a verification email to your inbox. Please check your email to activate your account.";
-					console.log('Email verification required:', verificationMessage);
+					$inspect('Email verification required:', verificationMessage);
 					goto(
 						`/verify-email?email=${encodeURIComponent(form.message.data?.email || '')}&message=${encodeURIComponent(verificationMessage)}`
 					);
 				} else {
 					// Direct signup success (no email verification required)
 					const welcomeMessage = `${form.message.message} Get ready to discover amazing movies!`;
-					console.log(
+					$inspect(
 						'Signup successful, redirecting to:',
 						redirectionPage,
 						'Message:',
@@ -37,7 +37,7 @@
 					goto(redirectionPage);
 				}
 			} else {
-				console.log('Signup Error:', form.message?.message);
+				$inspect('Signup Error:', form.message?.message);
 			}
 		}
 	});
@@ -69,7 +69,7 @@
 	}
 
 	function handleSocialSignup(provider: string) {
-		console.log(`Sign up with ${provider}`);
+		$inspect(`Sign up with ${provider}`);
 		// TODO: Implement social signup logic
 	}
 

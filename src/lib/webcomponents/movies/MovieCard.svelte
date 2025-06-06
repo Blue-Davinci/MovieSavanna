@@ -36,7 +36,7 @@
 		if (loading || !movie?.id) return;
 
 		// Will navigate to movie detail page later
-		console.log('Navigate to movie:', movie.id);
+		$inspect('Navigate to movie:', movie.id);
 		goto(`/dashboard/${movie.id}`);
 	}
 </script>
@@ -94,7 +94,7 @@
 				</div>
 			{/if}
 
-			<!-- ✅ FIX: Mobile-first favorite button with CSS media queries -->
+			<!-- Mobile-first favorite button with CSS media queries -->
 			<div class="favorite-button-container absolute top-3 left-3">
 				<FavoriteButton {movie} size="md" variant="overlay" />
 			</div>

@@ -46,8 +46,8 @@
 	let isVisible = $state(false);
 
 	function handleFeatureClick(featureId: string) {
-		console.log('Feature clicked:', featureId);
-		// Add feature interaction logic here
+		$inspect('Feature clicked:', featureId);
+		// ToDo: Add feature interaction logic here
 	}
 </script>
 
