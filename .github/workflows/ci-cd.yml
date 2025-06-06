@@ -1,0 +1,107 @@
+name: CI/CD Pipeline - MovieSavanna
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+  FORCE_COLOR: 3
+
+jobs:
+  # Job 1: Test Suite
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Type check
+        run: npm run check
+
+      - name: 🧹 Lint code
+        run: npm run lint
+
+      - name: 🧪 Run unit tests
+        run: npm run test:unit -- --run
+        env:
+          # Mock environment variables for testing
+          TMDB_API_KEY: test_api_key
+          TMDB_BASE_URL: https://api.themoviedb.org/3
+          TMDB_IMAGE_BASE_URL: https://image.tmdb.org/t/p
+          SUPABASE_URL: https://test.supabase.co
+          SUPABASE_KEY: test_key
+
+      - name: 🏗️ Test build
+        run: npm run build
+        env:
+          # Mock environment variables for build test
+          TMDB_API_KEY: test_api_key
+          TMDB_BASE_URL: https://api.themoviedb.org/3
+          TMDB_IMAGE_BASE_URL: https://image.tmdb.org/t/p
+          SUPABASE_URL: https://test.supabase.co
+          SUPABASE_KEY: test_key
+
+  # Job 2: Deploy to Vercel (only on main branch)
+  deploy:
+    name: 🚀 Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+
+  # Job 3: Preview Deploy (for PRs and develop branch)
+  preview:
+    name: 🔍 Preview Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request' || (github.ref == 'refs/heads/develop' && github.event_name == 'push')
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Deploy Preview to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
+
+      - name: 💬 Comment PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 Preview deployment is ready! Check the deployment URL in the Vercel dashboard.'
+            })

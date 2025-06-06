@@ -1,271 +1,407 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Error %sveltekit.status% - MovieSavanna</title>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Error %sveltekit.status% - MovieSavanna</title>
-  
-  <!-- Meta taigs -->
-  <meta name="description" content="Oops! Something went wrong on MovieSavanna. We're working to fix it.">
-  <meta name="robots" content="noindex, nofollow">
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Tailwind Config -->
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            emerald: {
-              400: '#34d399',
-              500: '#10b981',
-              600: '#059669'
-            },
-            cyan: {
-              400: '#22d3ee',
-              500: '#06b6d4',
-              600: '#0891b2'
-            }
-          },
-          fontFamily: {
-            'sans': ['Inter', 'system-ui', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  
-  <!-- Custom Styles -->
-  <style>
-    .text-gradient {
-      background: linear-gradient(135deg, #34d399, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .bg-dots {
-      background-image: radial-gradient(circle, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-    
-    .animate-float {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    .animate-pulse-slow {
-      animation: pulse 4s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .backdrop-blur-xl {
-      backdrop-filter: blur(24px);
-    }
-    
-    .glass {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(24px);
-      border: 1px solid rgba(148, 163, 184, 0.1);
-    }
-  </style>
-</head>
+		<!-- Meta taigs -->
+		<meta
+			name="description"
+			content="Oops! Something went wrong on MovieSavanna. We're working to fix it."
+		/>
+		<meta name="robots" content="noindex, nofollow" />
 
-<body class="bg-slate-950 text-white font-sans overflow-hidden">
-  <!-- Background Effects -->
-  <div class="fixed inset-0 bg-dots opacity-20"></div>
-  
-  <!-- Animated Background Elements -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-20 left-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-    <div class="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 4s;"></div>
-  </div>
+		<!-- Fonts -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+			rel="stylesheet"
+		/>
 
-  <!-- Main Container -->
-  <div class="relative min-h-screen flex flex-col">
-    
-    <!-- Header -->
-    <header class="relative z-10 p-6 lg:p-8">
-      <div class="flex items-center">
-        <a href="/" class="flex items-center group" aria-label="MovieSavanna home page">
-          <!-- Movie Camera Icon -->
-          <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h3a1 1 0 011 1v4a1 1 0 01-1 1h-1l-2 8H7l-2-8H4a1 1 0 01-1-1V5a1 1 0 011-1h3z"/>
-              <circle cx="12" cy="11" r="3"/>
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-emerald-500 font-bold text-xl group-hover:text-emerald-400 transition-colors">Movie</span>
-            <span class="text-white font-bold text-xl -mt-1 group-hover:text-gray-200 transition-colors">Savanna</span>
-          </div>
-        </a>
-      </div>
-    </header>
+		<!-- Tailwind CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center p-6 lg:p-8">
-      <div class="text-center max-w-4xl mx-auto">
-        
-        <!-- Error Card -->
-        <div class="glass rounded-3xl p-8 lg:p-12 shadow-2xl animate-float">
-          
-          <!-- Error Icon/Animation -->
-          <div class="mb-8">
-            <div class="relative inline-block">
-              <!-- Film Reel with Error -->
-              <div class="w-32 h-32 mx-auto mb-6 relative">
-                <div class="w-full h-full bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-2xl">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <!-- Floating dots around the icon -->
-                <div class="absolute -top-2 -right-2 w-4 h-4 bg-emerald-400 rounded-full animate-ping"></div>
-                <div class="absolute -bottom-2 -left-2 w-3 h-3 bg-cyan-400 rounded-full animate-ping" style="animation-delay: 1s;"></div>
-              </div>
-            </div>
-          </div>
+		<!-- Tailwind Config -->
+		<script>
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							emerald: {
+								400: '#34d399',
+								500: '#10b981',
+								600: '#059669'
+							},
+							cyan: {
+								400: '#22d3ee',
+								500: '#06b6d4',
+								600: '#0891b2'
+							}
+						},
+						fontFamily: {
+							sans: ['Inter', 'system-ui', 'sans-serif']
+						}
+					}
+				}
+			};
+		</script>
 
-          <!-- Error Code -->
-          <div class="mb-6">
-            <h1 class="text-8xl lg:text-9xl font-black text-gradient mb-4 leading-none">
-              %sveltekit.status%
-            </h1>
-            <div class="w-24 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 mx-auto rounded-full"></div>
-          </div>
+		<!-- Custom Styles -->
+		<style>
+			.text-gradient {
+				background: linear-gradient(135deg, #34d399, #22d3ee);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
 
-          <!-- Error Message -->
-          <div class="mb-8 space-y-4">
-            <h2 class="text-2xl lg:text-3xl font-bold text-white mb-4">
-              Oops! Something went wrong
-            </h2>
-            <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              %sveltekit.error.message%
-            </p>
-            <div class="inline-flex items-center px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span class="text-sm text-gray-400">Don't worry, we're on it!</span>
-            </div>
-          </div>
+			.bg-dots {
+				background-image: radial-gradient(circle, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
+				background-size: 20px 20px;
+			}
 
-          <!-- Action Buttons -->
-          <div class="space-y-4 lg:space-y-0 lg:space-x-4 lg:flex lg:justify-center">
-            <!-- Primary Action -->
-            <a href="/" 
-               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl group">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              Back to Home
-            </a>
+			.animate-float {
+				animation: float 3s ease-in-out infinite;
+			}
 
-            <!-- Secondary Action -->
-            <button onclick="window.history.back()" 
-                    class="inline-flex items-center px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 text-white font-semibold rounded-xl border border-slate-600 hover:border-slate-500 transition-all duration-300 transform hover:scale-105 group">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Go Back
-            </button>
-          </div>
+			.animate-pulse-slow {
+				animation: pulse 4s ease-in-out infinite;
+			}
 
-          <!-- Help Section -->
-          <div class="mt-8 pt-6 border-t border-slate-700/50">
-            <p class="text-sm text-gray-400 mb-4">
-              Still having trouble? We're here to help!
-            </p>
-            <div class="flex flex-wrap justify-center gap-4 text-sm">
-              <a href="/help" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Help Center
-              </a>
-              <span class="text-slate-600">•</span>
-              <a href="/contact" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Contact Support
-              </a>
-              <span class="text-slate-600">•</span>
-              <a href="/status" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2-2z" />
-                </svg>
-                Status Page
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+			@keyframes float {
+				0%,
+				100% {
+					transform: translateY(0px);
+				}
+				50% {
+					transform: translateY(-10px);
+				}
+			}
 
-    <!-- Footeer -->
-    <footer class="relative z-10 p-6 lg:p-8">
-      <div class="text-center">
-        <p class="text-sm text-gray-400">
-          &copy; 2024 MovieSavanna. All rights reserved.
-        </p>
-        <div class="flex justify-center space-x-6 mt-4 text-sm">
-          <a href="/terms" class="text-gray-400 hover:text-emerald-400 transition-colors">Terms</a>
-          <a href="/privacy" class="text-gray-400 hover:text-emerald-400 transition-colors">Privacy</a>
-          <a href="/help" class="text-gray-400 hover:text-emerald-400 transition-colors">Help</a>
-        </div>
-      </div>
-    </footer>
-  </div>
+			.backdrop-blur-xl {
+				backdrop-filter: blur(24px);
+			}
 
-  <!-- JavaScript for additional interactivity -->
-  <script>
-    // Add some interactive eleaments
-    document.addEventListener('DOMContentLoaded', function() {
-      // Refresh page button functionality
-      const refreshBtn = document.createElement('button');
-      refreshBtn.innerHTML = `
+			.glass {
+				background: rgba(15, 23, 42, 0.7);
+				backdrop-filter: blur(24px);
+				border: 1px solid rgba(148, 163, 184, 0.1);
+			}
+		</style>
+	</head>
+
+	<body class="overflow-hidden bg-slate-950 font-sans text-white">
+		<!-- Background Effects -->
+		<div class="bg-dots fixed inset-0 opacity-20"></div>
+
+		<!-- Animated Background Elements -->
+		<div class="pointer-events-none fixed inset-0 overflow-hidden">
+			<div
+				class="animate-pulse-slow absolute top-20 left-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"
+			></div>
+			<div
+				class="animate-pulse-slow absolute right-20 bottom-20 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl"
+				style="animation-delay: 2s"
+			></div>
+			<div
+				class="animate-pulse-slow absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-indigo-500/5 blur-3xl"
+				style="animation-delay: 4s"
+			></div>
+		</div>
+
+		<!-- Main Container -->
+		<div class="relative flex min-h-screen flex-col">
+			<!-- Header -->
+			<header class="relative z-10 p-6 lg:p-8">
+				<div class="flex items-center">
+					<a href="/" class="group flex items-center" aria-label="MovieSavanna home page">
+						<!-- Movie Camera Icon -->
+						<div
+							class="mr-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-500 transition-transform duration-300 group-hover:scale-110"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 text-white"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h3a1 1 0 011 1v4a1 1 0 01-1 1h-1l-2 8H7l-2-8H4a1 1 0 01-1-1V5a1 1 0 011-1h3z"
+								/>
+								<circle cx="12" cy="11" r="3" />
+							</svg>
+						</div>
+						<div class="flex flex-col">
+							<span
+								class="text-xl font-bold text-emerald-500 transition-colors group-hover:text-emerald-400"
+								>Movie</span
+							>
+							<span
+								class="-mt-1 text-xl font-bold text-white transition-colors group-hover:text-gray-200"
+								>Savanna</span
+							>
+						</div>
+					</a>
+				</div>
+			</header>
+
+			<!-- Main Content -->
+			<main class="flex flex-1 items-center justify-center p-6 lg:p-8">
+				<div class="mx-auto max-w-4xl text-center">
+					<!-- Error Card -->
+					<div class="glass animate-float rounded-3xl p-8 shadow-2xl lg:p-12">
+						<!-- Error Icon/Animation -->
+						<div class="mb-8">
+							<div class="relative inline-block">
+								<!-- Film Reel with Error -->
+								<div class="relative mx-auto mb-6 h-32 w-32">
+									<div
+										class="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-2xl"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-16 w-16 text-white"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+											/>
+										</svg>
+									</div>
+									<!-- Floating dots around the icon -->
+									<div
+										class="absolute -top-2 -right-2 h-4 w-4 animate-ping rounded-full bg-emerald-400"
+									></div>
+									<div
+										class="absolute -bottom-2 -left-2 h-3 w-3 animate-ping rounded-full bg-cyan-400"
+										style="animation-delay: 1s"
+									></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Error Code -->
+						<div class="mb-6">
+							<h1 class="text-gradient mb-4 text-8xl leading-none font-black lg:text-9xl">
+								%sveltekit.status%
+							</h1>
+							<div
+								class="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500"
+							></div>
+						</div>
+
+						<!-- Error Message -->
+						<div class="mb-8 space-y-4">
+							<h2 class="mb-4 text-2xl font-bold text-white lg:text-3xl">
+								Oops! Something went wrong
+							</h2>
+							<p class="mx-auto max-w-2xl text-lg leading-relaxed text-gray-300">
+								%sveltekit.error.message%
+							</p>
+							<div
+								class="inline-flex items-center rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="mr-2 h-4 w-4 text-gray-400"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+									/>
+								</svg>
+								<span class="text-sm text-gray-400">Don't worry, we're on it!</span>
+							</div>
+						</div>
+
+						<!-- Action Buttons -->
+						<div class="space-y-4 lg:flex lg:justify-center lg:space-y-0 lg:space-x-4">
+							<!-- Primary Action -->
+							<a
+								href="/"
+								class="group inline-flex transform items-center rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-emerald-700 hover:to-cyan-700 hover:shadow-xl"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-1"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+									/>
+								</svg>
+								Back to Home
+							</a>
+
+							<!-- Secondary Action -->
+							<button
+								onclick="window.history.back()"
+								class="group inline-flex transform items-center rounded-xl border border-slate-600 bg-slate-800/50 px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:border-slate-500 hover:bg-slate-700/50"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="mr-2 h-5 w-5 transition-transform group-hover:-translate-x-1"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M10 19l-7-7m0 0l7-7m-7 7h18"
+									/>
+								</svg>
+								Go Back
+							</button>
+						</div>
+
+						<!-- Help Section -->
+						<div class="mt-8 border-t border-slate-700/50 pt-6">
+							<p class="mb-4 text-sm text-gray-400">Still having trouble? We're here to help!</p>
+							<div class="flex flex-wrap justify-center gap-4 text-sm">
+								<a
+									href="/help"
+									class="flex items-center text-emerald-400 transition-colors hover:text-emerald-300"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="mr-1 h-4 w-4"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+										/>
+									</svg>
+									Help Center
+								</a>
+								<span class="text-slate-600">•</span>
+								<a
+									href="/contact"
+									class="flex items-center text-emerald-400 transition-colors hover:text-emerald-300"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="mr-1 h-4 w-4"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+										/>
+									</svg>
+									Contact Support
+								</a>
+								<span class="text-slate-600">•</span>
+								<a
+									href="/status"
+									class="flex items-center text-emerald-400 transition-colors hover:text-emerald-300"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="mr-1 h-4 w-4"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2-2z"
+										/>
+									</svg>
+									Status Page
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+
+			<!-- Footeer -->
+			<footer class="relative z-10 p-6 lg:p-8">
+				<div class="text-center">
+					<p class="text-sm text-gray-400">&copy; 2024 MovieSavanna. All rights reserved.</p>
+					<div class="mt-4 flex justify-center space-x-6 text-sm">
+						<a href="/terms" class="text-gray-400 transition-colors hover:text-emerald-400"
+							>Terms</a
+						>
+						<a href="/privacy" class="text-gray-400 transition-colors hover:text-emerald-400"
+							>Privacy</a
+						>
+						<a href="/help" class="text-gray-400 transition-colors hover:text-emerald-400">Help</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<!-- JavaScript for additional interactivity -->
+		<script>
+			// Add some interactive eleaments
+			document.addEventListener('DOMContentLoaded', function () {
+				// Refresh page button functionality
+				const refreshBtn = document.createElement('button');
+				refreshBtn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
         Try Again
       `;
-      refreshBtn.className = 'inline-flex items-center px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 text-white font-semibold rounded-xl border border-slate-600 hover:border-slate-500 transition-all duration-300 transform hover:scale-105 group ml-4';
-      refreshBtn.onclick = () => window.location.reload();
-      
-      // Add refresh button after the go back button
-      const goBackBtn = document.querySelector('button[onclick="window.history.back()"]');
-      if (goBackBtn && goBackBtn.parentNode) {
-        goBackBtn.parentNode.appendChild(refreshBtn);
-      }
-    });
+				refreshBtn.className =
+					'inline-flex items-center px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 text-white font-semibold rounded-xl border border-slate-600 hover:border-slate-500 transition-all duration-300 transform hover:scale-105 group ml-4';
+				refreshBtn.onclick = () => window.location.reload();
 
-    // Add keyboard shortcutss
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'h' || e.key === 'H') {
-        window.location.href = '/';
-      } else if (e.key === 'r' || e.key === 'R') {
-        window.location.reload();
-      } else if (e.key === 'Escape') {
-        window.history.back();
-      }
-    });
+				// Add refresh button after the go back button
+				const goBackBtn = document.querySelector('button[onclick="window.history.back()"]');
+				if (goBackBtn && goBackBtn.parentNode) {
+					goBackBtn.parentNode.appendChild(refreshBtn);
+				}
+			});
 
-    // Console message for devs
-    console.log(`
+			// Add keyboard shortcutss
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'h' || e.key === 'H') {
+					window.location.href = '/';
+				} else if (e.key === 'r' || e.key === 'R') {
+					window.location.reload();
+				} else if (e.key === 'Escape') {
+					window.history.back();
+				}
+			});
+
+			// Console message for devs
+			console.log(`
     🎬 MovieSavanna Error Page
     ========================
     
@@ -278,7 +414,6 @@
     
     Need help? Contact our support team!
     `);
-  </script>
-</body>
-
+		</script>
+	</body>
 </html>

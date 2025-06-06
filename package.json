@@ -14,7 +14,10 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"deploy": "vercel --prod",
+		"deploy:preview": "vercel",
+		"vercel-build": "npm run build"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
