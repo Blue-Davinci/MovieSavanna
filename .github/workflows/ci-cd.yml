@@ -40,10 +40,11 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'test'
-
+      # skipping this step if the type check fails
       - name: 🧹 Lint code
         run: npm run lint
-
+        continue-on-error: false
+        
       - name: 🧪 Run unit tests
         run: npm run test:unit -- --run
         env:
