@@ -1,7 +1,7 @@
 <div align="center">
    <p align="center">
       <a href="" rel="noopener">
-      <img width=300px height=240px src="https://i.ibb.co/NGX90Qz/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="Project logo"></a>
+      <img width=300px height=280px src="https://i.ibb.co/NGX90Qz/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="Project logo"></a>
    </p>
 
   
