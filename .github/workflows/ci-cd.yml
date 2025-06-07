@@ -40,6 +40,8 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'test'
+          VITE_BASE_URL: 'http://localhost:5173'
+          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
       # skipping this step if the type check fails
       - name: 🧹 Lint code
         run: npm run lint
@@ -56,6 +58,8 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'test'
+          VITE_BASE_URL: 'http://localhost:5173'
+          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
           # Additional test environment variables
           VITEST_ENV: 'true'
 
@@ -70,6 +74,8 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'production'
+          VITE_BASE_URL: 'http://localhost:5173'
+          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
 
       - name: 📊 Upload test coverage
         if: always()
@@ -233,7 +239,7 @@ jobs:
           echo "📱 Preview URL: ${{ steps.preview-deploy.outputs.preview-url }}"
           echo "🔗 Commit: ${{ github.sha }}"
           echo "📦 Branch: ${{ github.ref_name }}"
-          
+
           # Add to GitHub Step Summary
           echo "## 🚀 Preview Deployment Ready!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
