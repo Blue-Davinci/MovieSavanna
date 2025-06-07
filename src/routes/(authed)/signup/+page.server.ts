@@ -1,5 +1,5 @@
 import { superValidate, message } from 'sveltekit-superforms';
-import { VITE_ACTIVATION_URL } from '$env/static/private';
+import { ACTIVATION_URL } from '$env/static/private';
 import { zod } from 'sveltekit-superforms/adapters';
 import { signupSchema } from '$lib/schemas/schema';
 import { fail, type RequestEvent } from '@sveltejs/kit'; //redirect
@@ -216,9 +216,9 @@ async function registerUser(
 					first_name: userData.firstName,
 					last_name: userData.lastName,
 					full_name: `${userData.firstName} ${userData.lastName}`,
-					display_name: `${userData.firstName} ${userData.lastName}`,
+					display_name: `${userData.firstName} ${userData.lastName}`
 				},
-				emailRedirectTo: VITE_ACTIVATION_URL
+				emailRedirectTo: ACTIVATION_URL
 			}
 		});
 
