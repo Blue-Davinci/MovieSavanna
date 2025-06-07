@@ -1,7 +1,7 @@
 <div align="center">
    <p align="center">
       <a href="" rel="noopener">
-      <img width=300px height=190px src="https://i.ibb.co/NGX90Qz/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="Project logo"></a>
+      <img width=300px height=280px src="https://i.ibb.co/NGX90Qz/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="Project logo"></a>
    </p>
 
   
@@ -30,7 +30,7 @@
 
 ## 🚀 **Project Overview**
 
-MovieSavanna is a modern, full-stack movie discovery and streaming platform built with cutting-edge web technologies. It provides users with personalized movie recommendations, comprehensive search capabilities, user authentication, favorites management, and a sleek, responsive interface.
+MovieSavanna is a modern, full-stack movie discovery and streaming platform built with Svelte. It provides users with personalized movie recommendations, comprehensive search capabilities, user authentication, favorites management, and a sleek, responsive interface.
 
 ### **🎯 Why MovieSavanna?**
 
@@ -71,7 +71,7 @@ MovieSavanna is a modern, full-stack movie discovery and streaming platform buil
 
 ### 🔐 **Authentication & Security**
 - **🔑 Secure Authentication** - Email/password with account activation
-- **👤 User Profiles** - Personalized user experience
+- **👤 User Profiles** - Personalized user experience (_Should be enhanced in future updates_)
 - **🛡️ Rate Limiting** - Protection against abuse
 - **🔒 Privacy Compliant** - GDPR-ready privacy controls
 - **📧 Email Verification** - Comprehensive account activation system
@@ -81,11 +81,11 @@ MovieSavanna is a modern, full-stack movie discovery and streaming platform buil
 - **⚡ Fast Loading** - Optimized performance and caching
 - **🎪 Smooth Animations** - Delightful micro-interactions
 - **📖 Accessibility** - WCAG compliant design
-- **🔄 Real-time Updates** - Live data synchronization
+- **🔄 Real-time Updates** - Live data synchronization & state mgmt
 
 ### 🛠️ **Developer Experience**
 - **📝 TypeScript** - Full type safety
-- **🧪 Comprehensive Testing** - 19 unit tests with 100% coverage
+- **🧪 Comprehensive Testing** - 19 unit tests with wide coverage
 - **🚀 CI/CD Pipeline** - Automated testing and deployment
 - **📚 Documentation** - Extensive documentation and guides
 - **🔧 Developer Tools** - Hot reload, debugging, and profiling
