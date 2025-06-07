@@ -40,8 +40,7 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'test'
-          VITE_BASE_URL: 'http://localhost:5173'
-          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
+          ACTIVATION_URL: 'http://localhost:5173/activation'
       # skipping this step if the type check fails
       - name: 🧹 Lint code
         run: npm run lint
@@ -58,8 +57,7 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'test'
-          VITE_BASE_URL: 'http://localhost:5173'
-          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
+          ACTIVATION_URL: 'http://localhost:5173/activation'
           # Additional test environment variables
           VITEST_ENV: 'true'
 
@@ -74,8 +72,7 @@ jobs:
           TMDB_BASE_URL: 'https://api.themoviedb.org/3'
           TMDB_IMAGE_BASE_URL: 'https://image.tmdb.org/t/p'
           NODE_ENV: 'production'
-          VITE_BASE_URL: 'http://localhost:5173'
-          VITE_ACTIVATION_URL: 'http://localhost:5173/activation'
+          ACTIVATION_URL: 'http://localhost:5173/activation'
 
       - name: 📊 Upload test coverage
         if: always()

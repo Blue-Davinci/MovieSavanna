@@ -240,7 +240,7 @@ async function activateAccount(code: string, clientIP: string): Promise<Activati
 		// Since Supabase has already verified the email when the user clicked the link,
 		// we just need to validate that we received a proper activation code
 		const result = validateActivationCode(code, clientIP);
-		
+
 		if (result.success) {
 			logAuth('ACTIVATION_SUCCESS', {
 				codeValidated: true,
@@ -251,7 +251,8 @@ async function activateAccount(code: string, clientIP: string): Promise<Activati
 
 			return {
 				success: true,
-				message: 'Email verified successfully! Your account is now activated. Please sign in to continue.',
+				message:
+					'Email verified successfully! Your account is now activated. Please sign in to continue.',
 				redirectTo: '/login'
 			};
 		} else {
@@ -282,7 +283,7 @@ function validateActivationCode(code: string, clientIP: string): ActivationResul
 			clientIP,
 			timestamp: new Date().toISOString()
 		});
-		
+
 		return {
 			success: false,
 			message: 'Missing activation code. Please use the link from your email.',
@@ -319,7 +320,7 @@ function validateActivationCode(code: string, clientIP: string): ActivationResul
 
 	// Code appears valid - assume verification was successful on Supabase side
 	logAuth('ACTIVATION_CODE_VALIDATED', {
-		codeFormat: isPKCEToken ? 'PKCE' : (isValidUUID ? 'UUID' : 'Other'),
+		codeFormat: isPKCEToken ? 'PKCE' : isValidUUID ? 'UUID' : 'Other',
 		codeLength: code.length,
 		clientIP,
 		timestamp: new Date().toISOString()

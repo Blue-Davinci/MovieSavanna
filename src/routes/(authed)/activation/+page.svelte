@@ -17,7 +17,7 @@
 	onMount(() => {
 		mounted = true;
 		window.scrollTo(0, 0);
-		
+
 		// If we have an auto-activation code and no result yet, show loading for a bit
 		if (data.autoActivationCode && !data.activationResult) {
 			autoActivating = true;
@@ -42,7 +42,7 @@
 	function handleBack() {
 		goto('/login');
 	}
-	
+
 	function proceedToLogin() {
 		goto('/login');
 	}
@@ -78,20 +78,21 @@
 		} finally {
 			resendLoading = false;
 		}
-	}	// Determine the current state for UI display
+	} // Determine the current state for UI display
 	const currentState = $derived.by(() => {
 		// Show loading when auto-activating
 		if (autoActivating) return 'auto-activating';
-		
+
 		// Check if we have a successful activation result (after loading is done)
 		if (!autoActivating && data.activationResult?.success) return 'confirmed';
-		
+
 		// Check for errors
 		if ($errors.code && $errors.code.length > 0) return 'error';
-		
+
 		// Check if we had an auto-activation attempt that failed
-		if (data.autoActivationCode && data.activationResult && !data.activationResult.success) return 'error';
-		
+		if (data.autoActivationCode && data.activationResult && !data.activationResult.success)
+			return 'error';
+
 		return 'manual';
 	});
 
@@ -182,19 +183,32 @@
 									Please wait while we confirm your account activation.
 								</p>
 								<!-- Enhanced loading animation -->
-								<div class="mt-6 flex flex-col items-center" in:fly={{ y: 20, duration: 300, delay: 500 }}>
+								<div
+									class="mt-6 flex flex-col items-center"
+									in:fly={{ y: 20, duration: 300, delay: 500 }}
+								>
 									<!-- Spinner -->
 									<div class="relative mb-4">
-										<div class="h-12 w-12 animate-spin rounded-full border-4 border-slate-600 border-t-blue-400"></div>
-										<div class="absolute inset-0 h-12 w-12 animate-pulse rounded-full border-4 border-transparent border-t-blue-300/50"></div>
+										<div
+											class="h-12 w-12 animate-spin rounded-full border-4 border-slate-600 border-t-blue-400"
+										></div>
+										<div
+											class="absolute inset-0 h-12 w-12 animate-pulse rounded-full border-4 border-transparent border-t-blue-300/50"
+										></div>
 									</div>
 									<!-- Progress dots -->
 									<div class="flex space-x-2">
-										<div class="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:-0.3s]"></div>
-										<div class="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:-0.15s]"></div>
+										<div
+											class="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:-0.3s]"
+										></div>
+										<div
+											class="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:-0.15s]"
+										></div>
 										<div class="h-2 w-2 animate-bounce rounded-full bg-blue-400"></div>
 									</div>
-									<p class="mt-3 text-xs text-gray-500 animate-pulse">This may take a few seconds...</p>
+									<p class="mt-3 animate-pulse text-xs text-gray-500">
+										This may take a few seconds...
+									</p>
 								</div>
 							{:else if currentState === 'confirmed'}
 								<h1
@@ -204,7 +218,8 @@
 									Email Verified Successfully!
 								</h1>
 								<p class="mb-6 text-gray-400" in:fly={{ y: 20, duration: 300, delay: 400 }}>
-									{data.activationResult?.message || 'Your email has been confirmed and your account is now activated.'}
+									{data.activationResult?.message ||
+										'Your email has been confirmed and your account is now activated.'}
 								</p>
 								<button
 									onclick={proceedToLogin}
