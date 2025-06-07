@@ -10,8 +10,8 @@ const PROTECTED_ROUTES = ['/dashboard', '/logout'];
 
 const AUTH_ROUTES = [
 	'/login',
-	'/signup'
-	//'/verify-email'
+	'/signup',
+	'/activation'
 ];
 
 const ADMIN_ROUTES = ['/admin'];
