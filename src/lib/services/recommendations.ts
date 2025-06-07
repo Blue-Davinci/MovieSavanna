@@ -23,7 +23,11 @@ export class RecommendationService {
 		}
 
 		try {
-			console.log('[RECOMMENDATIONS] Analyzing user preferences from', favorites.length, 'favorites');
+			console.log(
+				'[RECOMMENDATIONS] Analyzing user preferences from',
+				favorites.length,
+				'favorites'
+			);
 
 			// Analyze user's genre preferences from favorites
 			const genreAnalysis = await this.analyzeUserGenrePreferences(favorites);

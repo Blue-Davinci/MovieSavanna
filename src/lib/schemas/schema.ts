@@ -67,3 +67,14 @@ export const signupSchema = z
 
 export type EnhancedLoginForm = z.infer<typeof enhancedLoginSchema>;
 export type SignupForm = z.infer<typeof signupSchema>;
+
+// Account activation schema
+export const activationSchema = z.object({
+	code: z
+		.string()
+		.min(1, 'Activation code is required')
+		.min(8, 'Invalid activation code format')
+		.transform((val) => val.trim())
+});
+
+export type ActivationForm = z.infer<typeof activationSchema>;

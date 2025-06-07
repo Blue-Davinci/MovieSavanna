@@ -15,29 +15,30 @@
 		validators: zodClient(signupSchema),
 		dataType: 'json',
 		onUpdated({ form }) {
-			$inspect('Signup form updated:', form);
+			//('Signup form updated:', form);
 
 			if (form.message?.success) {
 				if (form.message.message === 'verification_required') {
 					const verificationMessage =
 						"Welcome aboard! 🎉 We've sent a verification email to your inbox. Please check your email to activate your account.";
-					$inspect('Email verification required:', verificationMessage);
+					//$inspect('Email verification required:', verificationMessage);
 					goto(
 						`/verify-email?email=${encodeURIComponent(form.message.data?.email || '')}&message=${encodeURIComponent(verificationMessage)}`
 					);
 				} else {
 					// Direct signup success (no email verification required)
 					const welcomeMessage = `${form.message.message} Get ready to discover amazing movies!`;
-					$inspect(
+					/*$inspect(
 						'Signup successful, redirecting to:',
 						redirectionPage,
 						'Message:',
 						welcomeMessage
 					);
+					*/
 					goto(redirectionPage);
 				}
 			} else {
-				$inspect('Signup Error:', form.message?.message);
+				console.log('Signup Error:', form.message?.message);
 			}
 		}
 	});

@@ -1,6 +1,6 @@
 {
 	"name": "MovieSavanna",
-	"short_name": "MovieSavanna",
+	"short_name": "MoSav",
 	"icons": [
 		{
 			"src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,7 @@
 			"purpose": "maskable"
 		}
 	],
-	"theme_color": "#ae2eb4",
-	"background_color": "#000000",
+	"theme_color": "#cf5c5c",
+	"background_color": "#ffffff",
 	"display": "standalone"
 }
