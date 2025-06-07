@@ -1,5 +1,10 @@
 <div align="center">
-  <img src="https://i.ibb.co/G4kSg4TW/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="MovieSavanna Logo" width="120" height="120">
+   <p align="center">
+      <a href="" rel="noopener">
+      <img width=300px height=190px src="https://i.ibb.co/NGX90Qz/Screenshot-2025-06-07-at-10-49-20-Free-Logo-Maker-Get-Custom-Logo-Designs-in-Minutes-Looka-photoaidc.png" alt="Project logo"></a>
+   </p>
+
+  
   
   # 🎬 MovieSavanna
   
