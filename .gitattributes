@@ -1,0 +1,43 @@
+# Default: normalize line endings to LF on commit, leave working-tree as-is.
+* text=auto eol=lf
+
+# Explicit text files (LF in repo, regardless of platform)
+*.ts        text eol=lf
+*.tsx       text eol=lf
+*.js        text eol=lf
+*.jsx       text eol=lf
+*.mjs       text eol=lf
+*.cjs       text eol=lf
+*.svelte    text eol=lf
+*.json      text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.md        text eol=lf
+*.css       text eol=lf
+*.html      text eol=lf
+*.svg       text eol=lf
+*.webmanifest text eol=lf
+*.sh        text eol=lf
+.gitignore  text eol=lf
+.gitattributes text eol=lf
+.env*       text eol=lf
+
+# Windows scripts: keep CRLF (PowerShell expects native line endings)
+*.ps1       text eol=crlf
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+
+# Binary files: never modify
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.woff      binary
+*.woff2     binary
+*.ttf       binary
+*.otf       binary
+*.eot       binary
+*.pdf       binary
+*.zip       binary
+*.tar.gz    binary
