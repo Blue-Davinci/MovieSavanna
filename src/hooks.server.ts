@@ -4,6 +4,7 @@ import { logAuth, logSecurity, logError, generateErrorId } from '$lib/helpers/lo
 import { dev } from '$app/environment';
 import type { User } from '@supabase/supabase-js';
 import type { RequestEvent } from '@sveltejs/kit';
+import type { ProfileSummary, Role } from '$lib/types/profile';
 
 // Define route categories
 const PROTECTED_ROUTES = ['/dashboard', '/logout'];
@@ -33,6 +34,7 @@ const PUBLIC_ROUTES = [
 interface AuthResult {
 	isAuthenticated: boolean;
 	user: User | null;
+	profile: ProfileSummary | null;
 	isAdmin: boolean;
 	isVerified: boolean;
 }
@@ -84,6 +86,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 		// Set locals with proper typing
 		event.locals.user = authResult.user;
+		event.locals.profile = authResult.profile;
 		event.locals.isAuthenticated = authResult.isAuthenticated;
 		event.locals.isAdmin = authResult.isAdmin;
 		event.locals.isVerified = authResult.isVerified;
@@ -187,45 +190,49 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
 				error: userError.message,
 				timestamp: new Date().toISOString()
 			});
-			return {
-				isAuthenticated: false,
-				user: null,
-				isAdmin: false,
-				isVerified: false
-			};
+			return unauthenticated();
 		}
 
 		if (!user) {
-			return {
-				isAuthenticated: false,
-				user: null,
-				isAdmin: false,
-				isVerified: false
-			};
+			return unauthenticated();
 		}
 
-		// ToDo: Remove this if i'll have not implemented it -->> Get user profile data for additional checks
+		// Backed by `public.profiles` (auto-created by the on_auth_user_created trigger).
+		// Selecting fields the layout/UI commonly needs so we only round-trip once.
 		const { data: profile, error: profileError } = await supabase
 			.from('profiles')
-			.select('role, email_verified, first_name, last_name')
+			.select('id, role, first_name, last_name, display_name, avatar_url')
 			.eq('id', user.id)
-			.single();
+			.maybeSingle();
 
-		if (profileError && profileError.code !== 'PGRST116') {
-			// PGRST116 = no rows returned
+		if (profileError) {
 			logError('PROFILE_CHECK_ERROR', {
 				userId: user.id,
+				code: profileError.code,
 				error: profileError.message,
 				timestamp: new Date().toISOString()
 			});
 		}
 
-		const isAdmin = profile?.role === 'admin' || user.app_metadata?.role === 'admin';
-		const isVerified = user.email_confirmed_at !== null || profile?.email_verified === true;
+		const profileSummary: ProfileSummary | null = profile
+			? {
+					id: profile.id,
+					role: (profile.role as Role) ?? 'user',
+					first_name: profile.first_name,
+					last_name: profile.last_name,
+					display_name: profile.display_name,
+					avatar_url: profile.avatar_url
+				}
+			: null;
+
+		const isAdmin =
+			profileSummary?.role === 'admin' || user.app_metadata?.role === 'admin';
+		const isVerified = user.email_confirmed_at !== null;
 
 		logAuth('USER_AUTHENTICATED', {
 			userId: user.id,
 			email: user.email,
+			role: profileSummary?.role ?? 'user',
 			isAdmin,
 			isVerified,
 			provider: user.app_metadata?.provider || 'email',
@@ -235,6 +242,7 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
 		return {
 			isAuthenticated: true,
 			user: user,
+			profile: profileSummary,
 			isAdmin,
 			isVerified
 		};
@@ -245,13 +253,18 @@ async function checkAuthentication(event: RequestEvent): Promise<AuthResult> {
 			timestamp: new Date().toISOString()
 		});
 
-		return {
-			isAuthenticated: false,
-			user: null,
-			isAdmin: false,
-			isVerified: false
-		};
+		return unauthenticated();
 	}
+}
+
+function unauthenticated(): AuthResult {
+	return {
+		isAuthenticated: false,
+		user: null,
+		profile: null,
+		isAdmin: false,
+		isVerified: false
+	};
 }
 
 /**

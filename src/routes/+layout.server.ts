@@ -1,34 +1,14 @@
 import type { LayoutServerLoad } from './$types';
-import { createSupabaseServerClient } from '$lib/helpers/auth/supabaseClient.js';
 
-export const load: LayoutServerLoad = async (event) => {
-	try {
-		const supabase = createSupabaseServerClient(event);
+/**
+ * Reads from `event.locals`, which is populated by `hooks.server.ts` on every
+ * request. Avoids a duplicate `getUser()` round-trip and surfaces profile
+ * fields (display name, avatar, role) to the client layout.
+ */
+export const load: LayoutServerLoad = async ({ locals }) => {
+	const { user, profile, isAuthenticated, isAdmin } = locals;
 
-		// Get user session
-		const {
-			data: { user }
-		} = await supabase.auth.getUser();
-
-		return {
-			userInformation: {
-				isAuthenticated: !!user,
-				isAdmin: user?.app_metadata?.role === 'admin' || false,
-				user: user
-					? {
-							id: user.id,
-							email: user.email,
-							// Additional safe properties with null checks
-							emailConfirmed: user.email_confirmed_at ? true : false,
-							avatar: user.user_metadata?.avatar_url || null
-						}
-					: null
-			}
-		};
-	} catch (error) {
-		// When auth error occurs, return unauthenticated state
-		console.error('Layout server load error:', error);
-
+	if (!user) {
 		return {
 			userInformation: {
 				isAuthenticated: false,
@@ -37,4 +17,27 @@ export const load: LayoutServerLoad = async (event) => {
 			}
 		};
 	}
+
+	const fallbackDisplayName =
+		profile?.display_name?.trim() ||
+		[profile?.first_name, profile?.last_name].filter(Boolean).join(' ').trim() ||
+		user.email?.split('@')[0] ||
+		'';
+
+	return {
+		userInformation: {
+			isAuthenticated,
+			isAdmin,
+			user: {
+				id: user.id,
+				email: user.email,
+				emailConfirmed: user.email_confirmed_at !== null,
+				avatar: profile?.avatar_url ?? user.user_metadata?.avatar_url ?? null,
+				displayName: fallbackDisplayName,
+				firstName: profile?.first_name ?? null,
+				lastName: profile?.last_name ?? null,
+				role: profile?.role ?? 'user'
+			}
+		}
+	};
 };
