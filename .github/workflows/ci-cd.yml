@@ -150,11 +150,14 @@ jobs:
       - name: 🚀 Deploy to Vercel via CLI
         id: vercel-deploy
         run: |
-          npm install -g vercel
-          echo "Deploying to Vercel..."
-          DEPLOY_URL=$(vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes)
-          echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "Deployment completed successfully!"
+          npm install -g vercel@latest
+          echo "Pulling Vercel production environment settings..."
+          vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+          echo "Building production..."
+          vercel build --prod --token="$VERCEL_TOKEN"
+          echo "Deploying prebuilt production..."
+          DEPLOY_URL=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
           echo "Production URL: $DEPLOY_URL"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
