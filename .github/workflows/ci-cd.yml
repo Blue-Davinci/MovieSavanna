@@ -13,23 +13,23 @@ env:
 jobs:
   # Job 1: Test Suite
   test:
-    name: 🧪 Run Tests
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🛠️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: 🔍 Type check
+      - name: Type check
         run: npm run check
         env:
           # Required environment variables for type checking
@@ -42,11 +42,11 @@ jobs:
           NODE_ENV: 'test'
           ACTIVATION_URL: 'http://localhost:5173/activation'
       # skipping this step if the type check fails
-      - name: 🧹 Lint code
+      - name: Lint code
         run: npm run lint
         continue-on-error: true
 
-      - name: 🧪 Run unit tests
+      - name: Run unit tests
         run: npm run test:unit -- --run
         env:
           # Mock environment variables for testing
@@ -61,7 +61,7 @@ jobs:
           # Additional test environment variables
           VITEST_ENV: 'true'
 
-      - name: 🏗️ Test build
+      - name: Test build
         run: npm run build
         env:
           # Mock environment variables for build test
@@ -74,7 +74,7 @@ jobs:
           NODE_ENV: 'production'
           ACTIVATION_URL: 'http://localhost:5173/activation'
 
-      - name: 📊 Upload test coverage
+      - name: Upload test coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -84,30 +84,30 @@ jobs:
 
   # Job 2: Security & Quality
   security:
-    name: 🔒 Security Scan
+    name: Security Scan
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🛠️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: 🔍 Run security audit
+      - name: Run security audit
         run: npm audit --audit-level=moderate
         continue-on-error: true
 
-      - name: 📋 Check outdated packages
+      - name: Check outdated packages
         run: npm outdated || true
 
-      - name: 🔐 Generate security report
+      - name: Generate security report
         run: |
           echo "# Security Audit Report" > security-report.md
           echo "Generated on: $(date)" >> security-report.md
@@ -115,7 +115,7 @@ jobs:
           npm audit --json > npm-audit.json || true
           npm outdated --json > outdated-packages.json || true
 
-      - name: 📎 Upload security scan results
+      - name: Upload security scan results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -128,26 +128,26 @@ jobs:
 
   # Job 3: Deploy to Vercel (only after all tests pass)
   deploy:
-    name: 🚀 Deploy to Production
+    name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [test, security] # Won't run if tests fail
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🛠️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
       # Only deploy if all previous jobs succeeded
-      - name: 🚀 Deploy to Vercel via CLI
+      - name: Deploy to Vercel via CLI
         id: vercel-deploy
         run: |
           npm install -g vercel
@@ -161,21 +161,21 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: ✅ Deployment Success Notification
+      - name: Deployment Success Notification
         if: success()
         run: |
-          echo "🎉 Production deployment successful!"
+          echo "Production deployment successful!"
           echo "Production URL: ${{ steps.vercel-deploy.outputs.DEPLOY_URL }}"
           echo "::notice title=Deployment Success::MovieSavanna deployed to production successfully via GitHub Actions CI/CD"
           echo "::notice title=Production URL::${{ steps.vercel-deploy.outputs.DEPLOY_URL }}"
 
-      - name: ❌ Deployment Failure Notification
+      - name: Deployment Failure Notification
         if: failure()
         run: |
           echo "::error title=Deployment Failed::Production deployment failed. Check logs for details."
           echo "::error title=Debug Info::Vercel CLI deployment step failed - check token permissions and project configuration"
 
-      - name: 📎 Upload deployment artifacts
+      - name: Upload deployment artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -184,10 +184,10 @@ jobs:
             .vercel/
           retention-days: 7
 
-      - name: 📊 Generate deployment summary
+      - name: Generate deployment summary
         if: always()
         run: |
-          echo "# 🚀 Deployment Summary" >> deployment-summary.md
+          echo "# Deployment Summary" >> deployment-summary.md
           echo "" >> deployment-summary.md
           echo "**Status:** ${{ job.status }}" >> deployment-summary.md
           echo "**Commit:** ${{ github.sha }}" >> deployment-summary.md
@@ -201,7 +201,7 @@ jobs:
           # Add to GitHub Step Summary
           cat deployment-summary.md >> $GITHUB_STEP_SUMMARY
 
-      - name: 📎 Upload deployment summary
+      - name: Upload deployment summary
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -211,25 +211,25 @@ jobs:
 
   # Job 4: Preview Deploy (for PRs and development branch)
   preview:
-    name: 🔍 Preview Deploy
+    name: Preview Deploy
     runs-on: ubuntu-latest
     needs: [test, security]
     if: github.event_name == 'pull_request' || (github.ref == 'refs/heads/development' && github.event_name == 'push')
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🛠️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: 🔍 Deploy Preview to Vercel via CLI
+      - name: Deploy Preview to Vercel via CLI
         id: preview-deploy
         run: |
           npm install -g vercel@latest
@@ -247,31 +247,31 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       # just preview summary (no PR commenting)
-      - name: 📝 Preview Deployment Summary
+      - name: Preview Deployment Summary
         run: |
-          echo "🚀 Preview deployment completed successfully!"
-          echo "📱 Preview URL: ${{ steps.preview-deploy.outputs.preview-url }}"
-          echo "🔗 Commit: ${{ github.sha }}"
-          echo "📦 Branch: ${{ github.ref_name }}"
+          echo "Preview deployment completed successfully!"
+          echo "Preview URL: ${{ steps.preview-deploy.outputs.preview-url }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
 
           # Add to GitHub Step Summary
-          echo "## 🚀 Preview Deployment Ready!" >> $GITHUB_STEP_SUMMARY
+          echo "## Preview Deployment Ready!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**✅ All quality checks passed**" >> $GITHUB_STEP_SUMMARY
+          echo "**All quality checks passed**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📱 **Preview URL:** ${{ steps.preview-deploy.outputs.preview-url }}" >> $GITHUB_STEP_SUMMARY
-          echo "🔗 **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "📦 **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "🎯 **Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Preview URL:** ${{ steps.preview-deploy.outputs.preview-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**✅ Quality Gates Passed:**" >> $GITHUB_STEP_SUMMARY
-          echo "- Type checking ✅" >> $GITHUB_STEP_SUMMARY
-          echo "- Linting ✅" >> $GITHUB_STEP_SUMMARY
-          echo "- Unit tests ✅" >> $GITHUB_STEP_SUMMARY
-          echo "- Security audit ✅" >> $GITHUB_STEP_SUMMARY
-          echo "- Build verification ✅" >> $GITHUB_STEP_SUMMARY
+          echo "**Quality Gates Passed:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Type checking" >> $GITHUB_STEP_SUMMARY
+          echo "- Linting" >> $GITHUB_STEP_SUMMARY
+          echo "- Unit tests" >> $GITHUB_STEP_SUMMARY
+          echo "- Security audit" >> $GITHUB_STEP_SUMMARY
+          echo "- Build verification" >> $GITHUB_STEP_SUMMARY
 
-      - name: 📊 Upload preview deployment info
+      - name: Upload preview deployment info
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -282,24 +282,24 @@ jobs:
 
   # Job 5: Quality Report (runs after all other jobs)
   quality-report:
-    name: 📊 Quality Report
+    name: Quality Report
     runs-on: ubuntu-latest
     needs: [test, security, deploy, preview]
     if: always()
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 📥 Download artifacts
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts/
         continue-on-error: true
 
-      - name: 📊 Generate Quality Report
+      - name: Generate Quality Report
         run: |
-          echo "# 📊 MovieSavanna Quality Report" > quality-report.md
+          echo "# MovieSavanna Quality Report" > quality-report.md
           echo "" >> quality-report.md
           echo "**Build Information:**" >> quality-report.md
           echo "- **Commit:** ${{ github.sha }}" >> quality-report.md
@@ -315,25 +315,25 @@ jobs:
           echo "- **Preview Deploy:** ${{ needs.preview.result || 'Skipped' }}" >> quality-report.md
           echo "" >> quality-report.md
           echo "**Quality Checks:**" >> quality-report.md
-          echo "- ✅ Type checking completed" >> quality-report.md
-          echo "- ✅ Code linting passed" >> quality-report.md
-          echo "- ✅ Unit tests executed" >> quality-report.md
-          echo "- ✅ Security audit completed" >> quality-report.md
-          echo "- ✅ Build verification completed" >> quality-report.md
+          echo "- Type checking completed" >> quality-report.md
+          echo "- Code linting passed" >> quality-report.md
+          echo "- Unit tests executed" >> quality-report.md
+          echo "- Security audit completed" >> quality-report.md
+          echo "- Build verification completed" >> quality-report.md
           echo "" >> quality-report.md
           echo "**Generated on:** $(date -u)" >> quality-report.md
 
           # Display the report
           cat quality-report.md
 
-      - name: 📎 Upload Quality Report
+      - name: Upload Quality Report
         uses: actions/upload-artifact@v4
         with:
           name: quality-report
           path: quality-report.md
           retention-days: 90
 
-      - name: 📋 Summary
+      - name: Summary
         run: |
           echo "::notice title=Quality Report Generated::Comprehensive quality report generated and uploaded as artifact"
 

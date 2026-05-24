@@ -1,10 +1,10 @@
-# 🚀 MovieSavanna - Deployment Guide
+# MovieSavanna - Deployment Guide
 
 ## Overview
 
 This guide covers deploying MovieSavanna to Vercel with a complete CI/CD pipeline using GitHub Actions.
 
-## 📋 Prerequisites
+## Prerequisites
 
 ### 1. Vercel Account Setup
 
@@ -30,7 +30,7 @@ SUPABASE_KEY=your_supabase_anon_key
 NODE_ENV=production
 ```
 
-## 🔧 Local Deployment Setup
+## Local Deployment Setup
 
 ### 1. Install Vercel CLI
 
@@ -63,7 +63,7 @@ vercel env add SUPABASE_KEY production
 vercel env add NODE_ENV production
 ```
 
-## 🤖 CI/CD Pipeline Setup
+## CI/CD Pipeline Setup
 
 ### 1. GitHub Secrets
 
@@ -96,23 +96,23 @@ The CI/CD pipeline runs on:
 
 ### 3. Pipeline Stages
 
-1. **🧪 Test Suite**
+1. **Test Suite**
 
    - Type checking with `svelte-check`
    - ESLint linting
    - Unit tests with Vitest
    - Build verification
 
-2. **🚀 Production Deploy** (main branch only)
+2. **Production Deploy** (main branch only)
 
    - Deploys to production domain
    - Updates live site
 
-3. **🔍 Preview Deploy** (PRs & develop)
+3. **Preview Deploy** (PRs & develop)
    - Creates preview deployment
    - Comments preview URL on PRs
 
-## 📱 Manual Deployment
+## Manual Deployment
 
 ### Deploy to Production
 
@@ -132,7 +132,7 @@ npm run deploy:preview
 npm run build
 ```
 
-## 🔧 Vercel Configuration
+## Vercel Configuration
 
 The `vercel.json` configures:
 
@@ -141,7 +141,7 @@ The `vercel.json` configures:
 - **Headers**: Security & caching headers
 - **Environment**: Production optimizations
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Pre-deployment Checks
 
@@ -165,7 +165,7 @@ npm run build
 - Build process validates all dependencies
 - API routes tested with sample data
 
-## 🌐 Domains & URLs
+## Domains & URLs
 
 ### Production
 
@@ -177,7 +177,7 @@ npm run build
 - **Develop**: `https://your-project-git-develop.vercel.app`
 - **PR Previews**: `https://your-project-git-feature-branch.vercel.app`
 
-## 📊 Monitoring & Analytics
+## Monitoring & Analytics
 
 ### Vercel Dashboard
 
@@ -192,7 +192,7 @@ npm run build
 - Client-side error boundaries
 - API error responses with status codes
 
-## 🔒 Security Considerations
+## Security Considerations
 
 ### Environment Variables
 
@@ -212,7 +212,7 @@ npm run build
 - Secure image loading from TMDB CDN
 - Input validation on all API routes
 
-## 🚀 Deployment Checklist
+## Deployment Checklist
 
 ### Pre-Launch
 
@@ -231,7 +231,7 @@ npm run build
 - [ ] Favorites functionality working
 - [ ] Performance monitoring active
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -268,7 +268,7 @@ vercel env ls
 vercel env pull
 ```
 
-## 📈 Performance Optimization
+## Performance Optimization
 
 ### SvelteKit Features
 
@@ -284,7 +284,7 @@ vercel env pull
 - **Compression**: Automatic gzip/brotli
 - **Analytics**: Real user monitoring
 
-## 🔄 Continuous Integration
+## Continuous Integration
 
 ### Automated Testing
 
@@ -300,7 +300,7 @@ vercel env pull
 - Unit tests must pass
 - Build must succeed
 
-## 📞 Support
+## Support
 
 For deployment issues:
 
@@ -311,4 +311,4 @@ For deployment issues:
 
 ---
 
-**Ready to deploy?** Follow this guide step by step for a smooth deployment experience! 🚀
+**Ready to deploy?** Follow this guide step by step for a smooth deployment experience!

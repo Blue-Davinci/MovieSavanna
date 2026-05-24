@@ -1,28 +1,28 @@
-# 🚀 Quick Deployment Setup - MovieSavanna
+# Quick Deployment Setup - MovieSavanna
 
 ## Step-by-Step Deployment Guide
 
-### 1. Prerequisites Check ✅
+### 1. Prerequisites Check
 
 - [x] Vercel CLI installed globally
-- [x] All tests passing (19 tests ✅)
+- [x] All tests passing (19 tests)
 - [x] Production build successful
 - [x] CI/CD pipeline configured
 
-### 2. Get Your TMDB API Key 🔑
+### 2. Get Your TMDB API Key
 
 1. Visit [TMDB Website](https://www.themoviedb.org/settings/api)
 2. Create account/login
 3. Request API key
 4. Copy your API key
 
-### 3. Vercel Account Setup 🌐
+### 3. Vercel Account Setup
 
 1. Sign up at [vercel.com](https://vercel.com)
 2. Connect your GitHub account
 3. Import your MovieSavanna repository
 
-### 4. Environment Variables Setup 🔧
+### 4. Environment Variables Setup
 
 Add these in Vercel Dashboard → Project → Settings → Environment Variables:
 
@@ -35,7 +35,7 @@ SUPABASE_KEY=your_supabase_anon_key_here
 NODE_ENV=production
 ```
 
-### 5. Deploy Options 🚀
+### 5. Deploy Options
 
 #### Option A: Automatic GitHub Deployment
 
@@ -55,7 +55,7 @@ npm run deploy:preview   # Preview deployment
 npm run deploy          # Production deployment
 ```
 
-### 6. GitHub Secrets (for CI/CD) 🔐
+### 6. GitHub Secrets (for CI/CD)
 
 Add these in GitHub → Settings → Secrets and variables → Actions:
 
@@ -73,7 +73,7 @@ vercel login      # Login to your account
 vercel            # Link project (creates .vercel folder)
 ```
 
-### 7. First Deployment 🎉
+### 7. First Deployment
 
 ```powershell
 # Test everything works
@@ -89,7 +89,7 @@ npm run build
 .\deploy.ps1 production
 ```
 
-### 8. Verify Deployment ✅
+### 8. Verify Deployment
 
 After deployment, test these features:
 
@@ -100,7 +100,7 @@ After deployment, test these features:
 - [ ] Favorites functionality (if using Supabase)
 - [ ] API endpoints respond correctly
 
-### 9. Monitor & Maintain 📊
+### 9. Monitor & Maintain
 
 - **Vercel Dashboard**: Monitor performance, logs, analytics
 - **GitHub Actions**: View CI/CD pipeline status
@@ -127,7 +127,7 @@ npm run preview                # Preview build locally
 vercel --prod                  # Direct Vercel deploy
 ```
 
-## Troubleshooting 🔧
+## Troubleshooting
 
 ### Common Issues:
 
@@ -145,4 +145,4 @@ vercel --prod                  # Direct Vercel deploy
 
 ---
 
-**You're ready to deploy! 🎬✨**
+**You're ready to deploy!**
